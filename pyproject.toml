@@ -1,0 +1,29 @@
+[project]
+name = "fictional-bank-bot"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "ipykernel>=7.4.0",
+    "langchain>=1.4.6",
+    "langchain-core>=1.6.11",
+    "langchain-openai>=1.7.2",
+    "langgraph>=1.2.16",
+    "pandas>=3.0.6",
+    "python-dotenv>=1.2.4",
+    "requests>=2.34.2",
+]
+
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["fictional_bank*"]
+
+[dependency-groups]
+dev = [
+    "setuptools>=64",
+]

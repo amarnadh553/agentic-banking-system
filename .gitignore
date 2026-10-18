@@ -1,0 +1,27 @@
+# Python-generated files
+__pycache__/
+*.py[cod]
+build/
+dist/
+wheels/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Temporary files and logs
+temp/
+logs/
+
+# Project-specific files
+fictional_bank_bot.egg-info/
+notebooks/
+
+# Lock files (optional: keep if using uv for reproducible installs)
+# *.lock

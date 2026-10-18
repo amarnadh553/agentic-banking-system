@@ -1,0 +1,88 @@
+request_id,customer_id,request_type,request_date,status,remarks
+R0001,C001,Address Change,2026-08-22,Completed,Additional information may be required
+R0002,C001,Debit Card Replacement,2026-06-24,Completed,Additional information may be required
+R0003,C002,Address Change,2026-09-09,Completed,Demo record
+R0004,C004,KYC Update,2026-09-29,Processing,Verification in progress
+R0005,C005,Debit Card Replacement,2026-08-24,Processing,Completed successfully
+R0006,C005,Account Statement,2026-07-18,Completed,Completed successfully
+R0007,C006,Cheque Book,2026-08-12,Submitted,Demo record
+R0008,C007,Account Statement,2026-10-05,Submitted,Demo record
+R0009,C007,Mobile Number Update,2026-07-08,Processing,Request received
+R0010,C008,Account Statement,2026-10-15,Submitted,Demo record
+R0011,C010,Cheque Book,2026-07-21,Processing,Verification in progress
+R0012,C010,Account Statement,2026-09-16,Processing,Completed successfully
+R0013,C011,Debit Card Replacement,2026-06-27,Completed,Request received
+R0014,C012,Account Statement,2026-08-16,Submitted,Additional information may be required
+R0015,C012,Account Statement,2026-08-23,Submitted,Request received
+R0016,C013,Mobile Number Update,2026-10-13,Completed,Request received
+R0017,C013,Address Change,2026-07-02,Completed,Demo record
+R0018,C015,Cheque Book,2026-08-04,Submitted,Demo record
+R0019,C015,Debit Card Replacement,2026-08-19,Processing,Completed successfully
+R0020,C015,Account Statement,2026-10-06,Completed,Completed successfully
+R0021,C016,Account Statement,2026-10-10,Processing,Additional information may be required
+R0022,C017,Cheque Book,2026-07-16,Submitted,Verification in progress
+R0023,C017,Address Change,2026-08-14,Submitted,Completed successfully
+R0024,C018,Mobile Number Update,2026-08-24,Completed,Additional information may be required
+R0025,C018,Debit Card Replacement,2026-07-20,Submitted,Verification in progress
+R0026,C019,Account Statement,2026-08-24,Submitted,Demo record
+R0027,C020,KYC Update,2026-07-16,Completed,Demo record
+R0028,C023,Cheque Book,2026-10-16,Submitted,Verification in progress
+R0029,C023,Address Change,2026-07-26,Processing,Demo record
+R0030,C024,Address Change,2026-08-31,Submitted,Demo record
+R0031,C025,Debit Card Replacement,2026-09-20,Submitted,Completed successfully
+R0032,C025,Address Change,2026-08-02,Submitted,Additional information may be required
+R0033,C025,Account Statement,2026-07-15,Completed,Additional information may be required
+R0034,C026,Address Change,2026-07-09,Processing,Completed successfully
+R0035,C027,KYC Update,2026-08-17,Completed,Completed successfully
+R0036,C028,Cheque Book,2026-07-11,Processing,Demo record
+R0037,C030,Account Statement,2026-08-25,Completed,Request received
+R0038,C030,Cheque Book,2026-07-21,Completed,Request received
+R0039,C030,Account Statement,2026-09-23,Completed,Verification in progress
+R0040,C031,Cheque Book,2026-09-23,Completed,Additional information may be required
+R0041,C031,Debit Card Replacement,2026-09-28,Processing,Completed successfully
+R0042,C032,Mobile Number Update,2026-06-23,Completed,Demo record
+R0043,C032,Debit Card Replacement,2026-10-08,Completed,Completed successfully
+R0044,C033,Mobile Number Update,2026-07-09,Submitted,Additional information may be required
+R0045,C033,Debit Card Replacement,2026-10-07,Submitted,Additional information may be required
+R0046,C033,KYC Update,2026-07-20,Completed,Demo record
+R0047,C034,Cheque Book,2026-08-13,Submitted,Request received
+R0048,C034,Cheque Book,2026-07-12,Processing,Request received
+R0049,C035,Mobile Number Update,2026-09-17,Completed,Additional information may be required
+R0050,C035,Address Change,2026-07-22,Completed,Completed successfully
+R0051,C036,Account Statement,2026-09-15,Rejected,Demo record
+R0052,C036,Address Change,2026-09-15,Completed,Demo record
+R0053,C036,Mobile Number Update,2026-07-04,Submitted,Additional information may be required
+R0054,C037,Cheque Book,2026-08-19,Processing,Verification in progress
+R0055,C037,Mobile Number Update,2026-09-02,Submitted,Request received
+R0056,C039,Cheque Book,2026-08-13,Processing,Demo record
+R0057,C040,Debit Card Replacement,2026-07-25,Completed,Verification in progress
+R0058,C041,Address Change,2026-08-26,Completed,Verification in progress
+R0059,C041,Mobile Number Update,2026-07-11,Submitted,Request received
+R0060,C041,KYC Update,2026-06-29,Completed,Verification in progress
+R0061,C042,Debit Card Replacement,2026-09-05,Submitted,Demo record
+R0062,C043,Cheque Book,2026-10-13,Completed,Verification in progress
+R0063,C043,Account Statement,2026-06-22,Completed,Request received
+R0064,C044,Mobile Number Update,2026-06-25,Submitted,Completed successfully
+R0065,C045,Debit Card Replacement,2026-06-28,Completed,Demo record
+R0066,C046,Address Change,2026-07-07,Completed,Additional information may be required
+R0067,C047,KYC Update,2026-09-10,Processing,Verification in progress
+R0068,C047,KYC Update,2026-07-16,Completed,Completed successfully
+R0069,C048,KYC Update,2026-09-04,Completed,Demo record
+R0070,C049,KYC Update,2026-08-11,Completed,Completed successfully
+R0071,C050,Account Statement,2026-08-30,Completed,Completed successfully
+R0072,C050,KYC Update,2026-06-27,Completed,Demo record
+R0073,C051,KYC Update,2026-07-08,Completed,Completed successfully
+R0074,C051,KYC Update,2026-07-09,Processing,Additional information may be required
+R0075,C051,Mobile Number Update,2026-10-16,Completed,Demo record
+R0076,C052,Cheque Book,2026-06-24,Completed,Demo record
+R0077,C052,KYC Update,2026-09-06,Processing,Additional information may be required
+R0078,C054,Address Change,2026-10-07,Rejected,Completed successfully
+R0079,C055,Cheque Book,2026-10-04,Processing,Request received
+R0080,C055,Address Change,2026-08-27,Processing,Additional information may be required
+R0081,C056,Mobile Number Update,2026-08-25,Processing,Additional information may be required
+R0082,C057,Debit Card Replacement,2026-07-26,Submitted,Additional information may be required
+R0083,C058,Cheque Book,2026-07-28,Completed,Additional information may be required
+R0084,C058,Account Statement,2026-06-25,Submitted,Request received
+R0085,C059,Mobile Number Update,2026-09-18,Completed,Verification in progress
+R0086,C059,Address Change,2026-07-07,Completed,Completed successfully
+R0087,C060,Address Change,2026-10-16,Processing,Request received
