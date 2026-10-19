@@ -1,4 +1,5 @@
 from fictional_bank.agents.accounts_agent import AccountsAgent
 from fictional_bank.agents.transactions_agent import TransactionsAgent
 from fictional_bank.agents.service_agent import ServiceAgent
-from fictional_bank.agents.routing_graph import RoutingGraph
+from fictional_bank.agents.coordinator_agent import CoordinatorAgent
+
