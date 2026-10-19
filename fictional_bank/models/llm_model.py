@@ -26,10 +26,9 @@ class LLMModelInitializer:
         llm_model_name: str,
         open_ai_api_key: str,
         temperature: Optional[float] = 0.0,
-        top_p: Optional[float] = 1.0,
-        logger: Optional[logging.Logger] = None,
-        base_url: Optional[str] = None,
+        top_p: Optional[float] = 0.0,
         frequency_penalty: float = 0.0,
+        logger: Optional[logging.Logger] = None,
     ):
         self.logger = logger or logging.getLogger(__name__)
 
@@ -38,7 +37,6 @@ class LLMModelInitializer:
 
         self.llm_model_name = llm_model_name
         self.open_ai_api_key = open_ai_api_key
-        self.base_url = base_url
 
         self.temperature = 0.0 if temperature is None else temperature
         self.top_p = 1.0 if top_p is None else top_p
@@ -93,8 +91,7 @@ class LLMModelInitializer:
                 "frequency_penalty": self.frequency_penalty,
                 "max_retries": 2,
             }
-            if self.base_url:
-                model_kwargs["base_url"] = self.base_url
+
             self.llm_model = ChatOpenAI(**model_kwargs)
             self.logger.info("Successfully initialized LLM model: %s", self.llm_model_name)
             return self.llm_model
