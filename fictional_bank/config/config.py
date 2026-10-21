@@ -1,10 +1,17 @@
 import os
+from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Dict, List, Union, Any
 
 from dotenv import load_dotenv
 
-load_dotenv()
+# PROJECT_ROOT = Path(__file__).resolve().parents[2]
+# load_dotenv(PROJECT_ROOT / ".env")
+
+# print(os.getcwd()+os.sep+'fictional_bank'+os.sep+'.env')
+PROJECT_ROOT = os.getcwd()+os.sep+'fictional_bank'+os.sep+'.env'
+load_dotenv(PROJECT_ROOT)
+
 
 def get_env_var(var_name:str, default_value: Any = "", required: bool = True) -> Any:
     """

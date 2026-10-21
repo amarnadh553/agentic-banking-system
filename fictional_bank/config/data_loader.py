@@ -4,6 +4,8 @@ import pandas as pd
 # DATA_DIR = os.getcwd()+os.sep+'data'
 # DATA_DIR = Path.cwd() / "data"
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+LOG_DIR = PROJECT_ROOT / "logs"
+LOG_DIR.mkdir(parents=True, exist_ok=True)
 DATA_DIR = PROJECT_ROOT / "data"
 def load_csv(file_name:str) -> pd.DataFrame:
     path = DATA_DIR / file_name
