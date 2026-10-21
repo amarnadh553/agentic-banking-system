@@ -1,0 +1,1 @@
+from fictional_bank.config.config import Config

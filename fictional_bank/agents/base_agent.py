@@ -19,48 +19,22 @@ class BaseAgent:
 
         print("[DEBUG] Agent initialized successfully.")
 
-    def run(self, question):
-
-        print(f"\n========== RUNNING {self.__class__.__name__} ==========")
-        print(f"[DEBUG] Question: {question}")
-
+    async def run(self, question: str) -> dict:
         messages = [SystemMessage(content=self.system_prompt), HumanMessage(content=question)]
         for iteration in range(self.max_iterations):
-            print(f"\n========== ITERATION {iteration + 1} ==========")
-            print("[DEBUG] Sending messages to LLM...")
-            try:
-                response = self.llm_with_tools.invoke(messages)
-            except Exception as e:
-                print(f"[ERROR] LLM invocation failed: "f"{type(e).__name__}: {e}")
-                return {"error": str(e)}
+            response = await self.llm_with_tools.ainvoke(messages)
             messages.append(response)
-            print("[DEBUG] LLM response received.")
-            print(f"[DEBUG] Response content: {response.content}")
-            print(f"[DEBUG] Tool calls: {response.tool_calls}")
-            # Return the final answer
             if not response.tool_calls:
-                print("[DEBUG] Final response received.")
                 return {"result": response.content}
-            # Execute each requested tool
             for tool_call in response.tool_calls:
                 tool_name = tool_call["name"]
                 tool_args = tool_call["args"]
-                print("\n========== TOOL EXECUTION ==========")
-                print(f"[DEBUG] Tool name: {tool_name}")
-                print(f"[DEBUG] Tool arguments: {tool_args}")
                 if tool_name not in self.tool_map:
-                    print(f"[ERROR] Unknown tool: {tool_name}")
                     result = {"error": f"Unknown tool: {tool_name}"}
                 else:
                     try:
-                        result = self.tool_map[tool_name].invoke(tool_args)
-                        print("[DEBUG] Tool executed successfully.")
-                        print(f"[DEBUG] Tool result: {result}")
-                    except Exception as e:
-                        print(f"[ERROR] Tool failed: "f"{type(e).__name__}: {e}")
-                        result = {"error": (f"{type(e).__name__}: {str(e)}")}
-                # Return the tool result to the LLM
+                        result = await self.tool_map[tool_name].ainvoke(tool_args)
+                    except Exception as exc:
+                        result = {"error": f"{type(exc).__name__}: {exc}"}
                 messages.append(ToolMessage(content=str(result), tool_call_id=tool_call["id"]))
-                print("[DEBUG] Tool result added to conversation.")
-        print("[WARNING] Maximum iterations reached.")
         return {"result": "Maximum tool-call iterations reached."}
