@@ -11,7 +11,7 @@ from fictional_bank.graph import BuildGraph
 from fictional_bank.mcp_client import MCPToolClient
 from fictional_bank.models import LLMModelInitializer
 from fictional_bank.tools import ACCOUNTS_TOOLS, TRANSACTIONS_TOOLS, SERVICE_TOOLS
-from fictional_bank.agents import AccountsAgent, TransactionsAgent, ServiceAgent, CoordinatorAgent
+from fictional_bank.agents import AccountsAgent, TransactionsAgent, ServiceAgent, CoordinatorAgent, SynthesizerAgent
 
 
 class FictionalBankApplication:
@@ -37,12 +37,13 @@ class FictionalBankApplication:
         
         ## Agents with with llm and tools
         self.coordinator_agent = CoordinatorAgent(llm=self.llm)
+        self.synthesizer_agent = SynthesizerAgent(llm=self.llm)
         self.accounts_agent = AccountsAgent(llm=self.llm, tools=account_tool_list, max_iterations=self.config.MAX_ITERATIONS)
         self.transactions_agent = TransactionsAgent(llm=self.llm, tools=transaction_tool_list, max_iterations=self.config.MAX_ITERATIONS)
         self.service_agent = ServiceAgent(llm=self.llm, tools=service_tool_list, max_iterations=self.config.MAX_ITERATIONS)
 
         ## Building Grpha using LangGraph
-        self.banking_graph = BuildGraph(coordinator_agent=self.coordinator_agent, accounts_agent=self.accounts_agent, transactions_agent=self.transactions_agent, service_agent=self.service_agent)
+        self.banking_graph = BuildGraph(coordinator_agent=self.coordinator_agent, accounts_agent=self.accounts_agent, transactions_agent=self.transactions_agent, service_agent=self.service_agent, synthesizer_agent=self.synthesizer_agent)
         self.graph = self.banking_graph.build()
 
     async def run(self, question: str) -> dict:
@@ -51,6 +52,8 @@ class FictionalBankApplication:
                 "question": question,
                 "selected_agent": "",
                 "reasoning": "",
+                "tasks": [],
+                "answers": [],
                 "response": "",
             }
         )

@@ -1,8 +1,24 @@
-from typing import TypedDict
+import operator
+from typing import Annotated, TypedDict
+
+
+class AgentTask(TypedDict):
+    """One unit of work for one specialist agent."""
+    agent: str      # accounts | transactions | service
+    question: str   # self-contained sub-question for that agent
+
+
+class AgentAnswer(TypedDict):
+    agent: str
+    question: str
+    answer: str
+
 
 class AgentState(TypedDict):
-    """This state carries the user's question, routing decision, reasoning, and final response between graph nodes."""
-    question:str
-    selected_agent:str
-    reasoning:str
-    response:str
+    """Carries the question, the router's plan, each specialist's answer and the final response."""
+    question: str
+    selected_agent: str     # comma-separated route names, e.g. "accounts,transactions"
+    reasoning: str
+    tasks: list[AgentTask]          # router's plan (one task per specialist)
+    answers: list[AgentAnswer]      # what each specialist returned
+    response: str

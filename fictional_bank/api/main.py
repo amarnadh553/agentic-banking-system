@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-
+from typing import Optional
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
@@ -7,7 +7,7 @@ from fictional_bank.config import Config
 from fictional_bank.main import FictionalBankApplication
 from fictional_bank.mcp_client import MCPToolClient
 from fictional_bank.src import Logger
-from fictional_bank.src.utilities import remove_newlines
+from fictional_bank.src.utilities import remove_newlines, generate_graph
 
 logger = Logger().get_logger(__name__)
 
@@ -49,18 +49,15 @@ app = FastAPI(
 
 
 class BankingRequest(BaseModel):
-    question: str = Field(
-        ...,
-        min_length=1,
-        description="Banking question, including customer ID when relevant.",
-        examples=["What accounts does customer C001 have?"],
-    )
+    question: str = Field(..., min_length=1, description="Banking question, including customer ID when relevant.", examples=["What accounts does customer C001 have?"])
+    visualize_graph: bool = Field(default=False, description="Whether to generate the banking graph visualization.")
 
 
 class BankingResponse(BaseModel):
     selected_agent: str
     reasoning: str
     response: str
+    graph_image_url: Optional[str] = None
 
 
 @app.get("/health")
@@ -76,8 +73,12 @@ async def ask_banking_agent(request: BankingRequest):
         raise HTTPException(status_code=400, detail="Please provide a banking question.")
     logger.info("Banking request received")
     try:
-        result = await app.state.banking_app.run(question)
+        banking_app = app.state.banking_app
+        result = await banking_app.run(question)
         logger.info("Banking request completed; selected_agent=%s", result.get("selected_agent", "UNKNOWN"))
+        graph_image_url = None
+        if request.visualize_graph:
+            generate_graph(banking_app)
         return BankingResponse(
             selected_agent=result.get("selected_agent", ""),
             reasoning=result.get("reasoning", ""),
