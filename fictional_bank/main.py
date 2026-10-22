@@ -69,33 +69,3 @@ class FictionalBankApplication:
         with open(output_path, "wb") as file:
             file.write(png_data)
         print(f"Graph saved as {output_path}")
-
-
-# async def main():
-
-#     logger = Logger().get_logger()
-#     config = Config()
-
-#     async with MCPToolClient() as mcp_client:
-#         accounts_mcp_tools = mcp_client.tools_for("accounts")
-#         transactions_mcp_tools = mcp_client.tools_for("transactions")
-#         service_mcp_tools = mcp_client.tools_for("service")
-
-#         print("Accounts MCP tools:")
-#         for tool in accounts_mcp_tools:
-#             print(f"- {tool.name}")
-
-#         print("Transactions MCP tools:")
-#         for tool in transactions_mcp_tools:
-#             print(f"- {tool.name}")
-
-#         app = FictionalBankApplication(config=config, logger=logger, accounts_tools=accounts_mcp_tools, transactions_tools=transactions_mcp_tools,service_mcp_tools=service_mcp_tools)
-#         # result = await app.run("How much is in C003's salary account")
-#         # result = await app.run("Show the 5 most recent transactions for customer C003")
-#         result = await app.run("Can you show me all service requests for C037?")
-#         print("\nComplete result:")
-#         print(result)
-
-# if __name__ == "__main__":
-#     asyncio.run(main())
-# # Can you show me all my pending service requests?

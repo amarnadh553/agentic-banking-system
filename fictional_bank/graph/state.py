@@ -19,6 +19,7 @@ class AgentState(TypedDict):
     question: str
     selected_agent: str     # comma-separated route names, e.g. "accounts,transactions"
     reasoning: str
-    tasks: list[AgentTask]          # router's plan (one task per specialist)
-    answers: list[AgentAnswer]      # what each specialist returned
+    tasks: list[AgentTask]  # router's plan (one task per specialist)
+    # Specialists run in parallel; the reducer appends their answers instead of overwriting.
+    answers: Annotated[list[AgentAnswer], operator.add]
     response: str
