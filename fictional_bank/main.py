@@ -16,7 +16,7 @@ from fictional_bank.agents import AccountsAgent, TransactionsAgent, ServiceAgent
 
 class FictionalBankApplication:
 
-    def __init__(self, config: Config, logger, accounts_tools, transactions_tools, service_mcp_tools):
+    def __init__(self, config: Config, logger, accounts_tools, transactions_tools, service_tools):
         self.config = config
         self.logger = logger or Logger().get_logger()
         self.llm_model_initializer = LLMModelInitializer(
@@ -31,7 +31,7 @@ class FictionalBankApplication:
         # Use MCP tools for the AccountsAgent.
         account_tool_list = (list(accounts_tools) if accounts_tools is not None else ACCOUNTS_TOOLS)
         transaction_tool_list = (list(transactions_tools) if transactions_tools is not None else TRANSACTIONS_TOOLS)
-        service_tool_list = (list(service_mcp_tools) if service_mcp_tools is not None else SERVICE_TOOLS)
+        service_tool_list = (list(service_tools) if service_tools is not None else SERVICE_TOOLS)
 
 
         

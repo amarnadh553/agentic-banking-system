@@ -28,7 +28,7 @@ async def lifespan(app: FastAPI):
                 logger=Logger().get_logger(),
                 accounts_tools=client.tools_for("accounts"),
                 transactions_tools=client.tools_for("transactions"),
-                service_mcp_tools=client.tools_for("service"),
+                service_tools=client.tools_for("service"),
             )
             logger.info("Banking application initialized successfully")
             yield

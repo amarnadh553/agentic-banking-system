@@ -1,23 +1,13 @@
 from langgraph.graph import StateGraph, START, END
-
 from fictional_bank.graph.state import AgentState
-from fictional_bank.graph.routing import (
-    router_node,
-    accounts_node,
-    transactions_node,
-    service_node,
-    synthesize_node,
-    clarification_node,
-    routing_logic,
-)
 
 
 class BuildGraph:
     """
-    START -> router -> accounts      \\
-                    -> transactions  -> synthesizer -> END   (only the chosen agents run, in parallel)
-                    -> service       /
-                    -> clarification -> END
+    START -> router -> accounts      \
+                       transactions  -> synthesizer -> END    (only the agents the router picked run)
+                       service       /
+                       clarification -> END
     """
 
     def __init__(self, coordinator_agent, accounts_agent, transactions_agent, service_agent, synthesizer_agent):
@@ -27,21 +17,57 @@ class BuildGraph:
         self.service_agent = service_agent
         self.synthesizer_agent = synthesizer_agent
 
+    # ---------------- Nodes ----------------
+
     async def router(self, state: AgentState) -> dict:
-        return await router_node(state, self.coordinator_agent)
+        """Ask the coordinator which specialists are needed and what each one should answer."""
+        decision = await self.coordinator_agent.arun(state["question"])
 
-    # The three specialist nodes receive their own task (from Send), not the whole state.
-    async def accounts(self, task: dict) -> dict:
-        return await accounts_node(task, self.accounts_agent)
+        tasks = {}
+        for task in decision.tasks:
+            if task.agent != "clarification":
+                tasks.setdefault(task.agent, task.question)
 
-    async def transactions(self, task: dict) -> dict:
-        return await transactions_node(task, self.transactions_agent)
+        return {
+            "tasks": [{"agent": agent, "question": question} for agent, question in tasks.items()],
+            "selected_agent": ",".join(tasks) or "clarification",
+            "reasoning": decision.reasoning,
+        }
 
-    async def service(self, task: dict) -> dict:
-        return await service_node(task, self.service_agent)
+    async def run_agent(self, name: str, agent, state: AgentState) -> str:
+        """Find this agent's sub-question in the plan, run the agent and return its answer."""
+        question = next(task["question"] for task in state["tasks"] if task["agent"] == name)
+        result = await agent.run(question)
+        return str(result.get("result", result))
+
+    async def accounts(self, state: AgentState) -> dict:
+        return {"accounts_answer": await self.run_agent("accounts", self.accounts_agent, state)}
+
+    async def transactions(self, state: AgentState) -> dict:
+        return {"transactions_answer": await self.run_agent("transactions", self.transactions_agent, state)}
+
+    async def service(self, state: AgentState) -> dict:
+        return {"service_answer": await self.run_agent("service", self.service_agent, state)}
 
     async def synthesizer(self, state: AgentState) -> dict:
-        return await synthesize_node(state, self.synthesizer_agent)
+        """Combine the specialists' answers into one reply."""
+        answers = [{"agent": task["agent"], "question": task["question"], "answer": state[f"{task['agent']}_answer"]} for task in state["tasks"]]
+        if len(answers) == 1:
+            return {"response": answers[0]["answer"]}
+        return {"response": await self.synthesizer_agent.run(state["question"], answers)}
+
+    def clarification(self, state: AgentState) -> dict:
+        return {"response": "Could you please clarify your banking question?"}
+
+    # ---------------- routing ----------------
+
+    def after_router(self, state: AgentState):
+        """Return the node names to run next. Several names means they run in parallel."""
+        if not state["tasks"]:
+            return "clarification"
+        return [task["agent"] for task in state["tasks"]]
+
+    # ---------------- build graph----------------
 
     def build(self):
         workflow = StateGraph(AgentState)
@@ -51,17 +77,14 @@ class BuildGraph:
         workflow.add_node("transactions", self.transactions)
         workflow.add_node("service", self.service)
         workflow.add_node("synthesizer", self.synthesizer)
-        workflow.add_node("clarification", clarification_node)
+        workflow.add_node("clarification", self.clarification)
 
         workflow.add_edge(START, "router")
-
-        # routing_logic returns Send objects; the list below tells LangGraph (and the diagram) the possible targets.
         workflow.add_conditional_edges(
             "router",
-            routing_logic,
+            self.after_router,
             ["accounts", "transactions", "service", "clarification"],
         )
-
         workflow.add_edge("accounts", "synthesizer")
         workflow.add_edge("transactions", "synthesizer")
         workflow.add_edge("service", "synthesizer")

@@ -41,7 +41,7 @@ async def ask_banking_agent(question: str) -> dict:
                 logger=Logger().get_logger(),
                 accounts_tools=client.tools_for("accounts"),
                 transactions_tools=client.tools_for("transactions"),
-                service_mcp_tools=client.tools_for("service"),
+                service_tools=client.tools_for("service"),
             )
 
             result = await app.run(question.strip())
