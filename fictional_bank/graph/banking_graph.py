@@ -1,4 +1,5 @@
 from langgraph.graph import StateGraph, START, END
+
 from fictional_bank.graph.state import AgentState
 
 
@@ -17,13 +18,13 @@ class BuildGraph:
         self.service_agent = service_agent
         self.synthesizer_agent = synthesizer_agent
 
-    # ---------------- Nodes ----------------
+    # ---------------- nodes ----------------
 
     async def router(self, state: AgentState) -> dict:
         """Ask the coordinator which specialists are needed and what each one should answer."""
         decision = await self.coordinator_agent.arun(state["question"])
 
-        tasks = {}
+        tasks = {}                                   # one task per specialist
         for task in decision.tasks:
             if task.agent != "clarification":
                 tasks.setdefault(task.agent, task.question)
@@ -34,30 +35,35 @@ class BuildGraph:
             "reasoning": decision.reasoning,
         }
 
-    async def run_agent(self, name: str, agent, state: AgentState) -> str:
-        """Find this agent's sub-question in the plan, run the agent and return its answer."""
+    async def run_agent(self, name: str, agent, state: AgentState) -> dict:
+        """Find this agent's sub-question in the plan, run the agent, return its answer and the tools it called."""
         question = next(task["question"] for task in state["tasks"] if task["agent"] == name)
         result = await agent.run(question)
-        return str(result.get("result", result))
+        return {"answer": str(result.get("result", result)), "tool_calls": result.get("tool_calls", [])}
 
     async def accounts(self, state: AgentState) -> dict:
-        return {"accounts_answer": await self.run_agent("accounts", self.accounts_agent, state)}
+        return {"accounts_result": await self.run_agent("accounts", self.accounts_agent, state)}
 
     async def transactions(self, state: AgentState) -> dict:
-        return {"transactions_answer": await self.run_agent("transactions", self.transactions_agent, state)}
+        return {"transactions_result": await self.run_agent("transactions", self.transactions_agent, state)}
 
     async def service(self, state: AgentState) -> dict:
-        return {"service_answer": await self.run_agent("service", self.service_agent, state)}
+        return {"service_result": await self.run_agent("service", self.service_agent, state)}
 
     async def synthesizer(self, state: AgentState) -> dict:
-        """Combine the specialists' answers into one reply."""
-        answers = [{"agent": task["agent"], "question": task["question"], "answer": state[f"{task['agent']}_answer"]} for task in state["tasks"]]
-        if len(answers) == 1:
-            return {"response": answers[0]["answer"]}
-        return {"response": await self.synthesizer_agent.run(state["question"], answers)}
+        """Combine the specialists' answers into one reply and collect the tools they used."""
+        results = {task["agent"]: state[f"{task['agent']}_result"] for task in state["tasks"]}
+        tool_calls = {agent: result["tool_calls"] for agent, result in results.items()}
+        answers = [
+            {"agent": task["agent"], "question": task["question"], "answer": results[task["agent"]]["answer"]}
+            for task in state["tasks"]
+        ]
+        if len(answers) == 1:                        # nothing to combine, skip the extra LLM call
+            return {"response": answers[0]["answer"], "tool_calls": tool_calls}
+        return {"response": await self.synthesizer_agent.run(state["question"], answers), "tool_calls": tool_calls}
 
     def clarification(self, state: AgentState) -> dict:
-        return {"response": "Could you please clarify your banking question?"}
+        return {"response": "Could you please clarify your banking question?", "tool_calls": {}}
 
     # ---------------- routing ----------------
 
@@ -67,7 +73,7 @@ class BuildGraph:
             return "clarification"
         return [task["agent"] for task in state["tasks"]]
 
-    # ---------------- build graph----------------
+    # ---------------- build ----------------
 
     def build(self):
         workflow = StateGraph(AgentState)

@@ -1,0 +1,2 @@
+Test Case,Answer Correct,Tool Correct,Trajectory Correct,Latency (s),Latency Pass,Safe/Reliable,Score (%)
+Q001,True,True,True,14.055,False,True,80.0

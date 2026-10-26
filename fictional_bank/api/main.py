@@ -1,7 +1,8 @@
+import time
 from contextlib import asynccontextmanager
 from typing import Optional
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from fictional_bank.config import Config
 from fictional_bank.main import FictionalBankApplication
@@ -53,12 +54,31 @@ class BankingRequest(BaseModel):
     visualize_graph: bool = Field(default=False, description="Whether to generate the banking graph visualization.")
 
 
-class BankingResponse(BaseModel):
+class ExecutionTrace(BaseModel):
+    """How the answer was produced. Remove this key from the response if you do not need it."""
+    model_config = ConfigDict(protected_namespaces=())   # allows the field name "model_name"
+
     selected_agent: str
+    selected_agents: list[dict] = Field(default_factory=list)   # [{"agent": "accounts", "question": "..."}]
+    selected_tools: list[dict] = Field(default_factory=list)    # [{"agent": "accounts", "tool": "...", "args": {...}}]
+    model_name: str = ""
+    latency_seconds: float = 0.0   # time the server took to answer (router + agents + tools)
+
+
+class BankingResponse(BaseModel):
     reasoning: str
     response: str
+    trace: ExecutionTrace
     graph_image_url: Optional[str] = None
 
+def get_selected_agents(result: dict, question: str) -> list[dict]:
+    """The agents the router picked, each with the sub-question it was given."""
+    tasks = result.get("tasks") or [{"agent": "clarification", "question": question}]
+    return [{"agent": task["agent"], "question": task["question"]} for task in tasks]
+
+def get_selected_tools(result: dict) -> list[dict]:
+    """Every tool the agents called, in order, one dict per call."""
+    return [{"agent": agent, "tool": call["name"], "args": call["args"]} for agent, calls in (result.get("tool_calls") or {}).items() for call in calls]
 
 @app.get("/health")
 async def health_check():
@@ -73,18 +93,36 @@ async def ask_banking_agent(request: BankingRequest):
         raise HTTPException(status_code=400, detail="Please provide a banking question.")
     logger.info("Banking request received")
     try:
+        started = time.perf_counter()
         banking_app = app.state.banking_app
         result = await banking_app.run(question)
+        print("RES START", result, "RES END")
         logger.info("Banking request completed; selected_agent=%s", result.get("selected_agent", "UNKNOWN"))
         graph_image_url = None
         if request.visualize_graph:
             generate_graph(banking_app)
+        latency_seconds = round(time.perf_counter() - started, 3)
+        # return BankingResponse(
+        #     selected_agents=get_selected_agents(result, question),
+        #     selected_tools=get_selected_tools(result),
+        #     model_name=banking_app.config.LLM_MODEL_NAME,
+        #     latency_seconds=latency_seconds,
+        #     selected_agent=result.get("selected_agent", ""),
+        #     reasoning=result.get("reasoning", ""),
+        #     response=remove_newlines(result.get("response", "")),
+        # )
         return BankingResponse(
-            selected_agent=result.get("selected_agent", ""),
             reasoning=result.get("reasoning", ""),
             response=remove_newlines(result.get("response", "")),
+            trace=ExecutionTrace(
+                selected_agent=result.get("selected_agent", ""),
+                selected_agents=get_selected_agents(result, question),
+                selected_tools=get_selected_tools(result),
+                model_name=banking_app.config.LLM_MODEL_NAME,
+                latency_seconds=latency_seconds,
+            ),
         )
 
     except Exception as exc:
         logger.exception("Banking request processing failed")
-        raise HTTPException(status_code=500, detail="Failed to process the banking request.")
+        raise HTTPException(status_code=500, detail=f"""Failed to process the banking request.{exc}""")

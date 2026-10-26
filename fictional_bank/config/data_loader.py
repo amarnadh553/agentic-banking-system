@@ -14,7 +14,7 @@ def load_csv(file_name:str) -> pd.DataFrame:
     df = pd.read_csv(path)
     df = df.loc[:, ~df.columns.str.match('^Unnamed')]
 
-    for column in df.select_dtypes(include=['object']).columns:
+    for column in df.select_dtypes(include=['object', 'str']).columns:
         df[column] = df[column].str.strip()
     return df
 
@@ -41,3 +41,8 @@ def get_customer_transactions_based_on_customer_id(customer_id:str)->pd.DataFram
 
 def get_customer_service_requests_based_on_customer_id(customer_id):
     return service_requests_df[service_requests_df["customer_id"].astype(str).str.strip().str.upper() == str(customer_id).strip().upper()]
+# 
+# print(accounts_df.head(1))
+# print(customers_df.head(1))
+# print(transactions_df.head(1))
+# print(service_requests_df.head(1))

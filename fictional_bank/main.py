@@ -23,7 +23,7 @@ class FictionalBankApplication:
             llm_model_name=self.config.LLM_MODEL_NAME,
             open_ai_api_key=self.config.OPENAI_API_KEY,
             temperature=self.config.TEMPERATURE,
-            top_p=self.config.TOP_P,
+            # top_p=self.config.TOP_P,
             frequency_penalty=self.config.FREQUENCY_PENALTY,
             logger=self.logger,
         )

@@ -21,14 +21,16 @@ class BaseAgent:
 
     async def run(self, question: str) -> dict:
         messages = [SystemMessage(content=self.system_prompt), HumanMessage(content=question)]
+        tool_calls = []   # every tool the agent called, in order
         for iteration in range(self.max_iterations):
             response = await self.llm_with_tools.ainvoke(messages)
             messages.append(response)
             if not response.tool_calls:
-                return {"result": response.content}
+                return {"result": response.content, "tool_calls": tool_calls}
             for tool_call in response.tool_calls:
                 tool_name = tool_call["name"]
                 tool_args = tool_call["args"]
+                tool_calls.append({"name": tool_name, "args": tool_args})
                 if tool_name not in self.tool_map:
                     result = {"error": f"Unknown tool: {tool_name}"}
                 else:
@@ -37,4 +39,4 @@ class BaseAgent:
                     except Exception as exc:
                         result = {"error": f"{type(exc).__name__}: {exc}"}
                 messages.append(ToolMessage(content=str(result), tool_call_id=tool_call["id"]))
-        return {"result": "Maximum tool-call iterations reached."}
+        return {"result": "Maximum tool-call iterations reached.", "tool_calls": tool_calls}

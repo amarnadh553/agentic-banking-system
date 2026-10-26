@@ -1,0 +1,12 @@
+[
+    {
+        "Test Case":"Q001",
+        "Answer Correct":true,
+        "Tool Correct":true,
+        "Trajectory Correct":true,
+        "Latency (s)":14.055,
+        "Latency Pass":false,
+        "Safe\/Reliable":true,
+        "Score (%)":80.0
+    }
+]

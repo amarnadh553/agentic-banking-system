@@ -3,6 +3,7 @@ import os
 import logging
 from typing import Optional
 import traceback
+from pathlib import Path
 
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
@@ -12,7 +13,18 @@ from functools import lru_cache
 
 logger = Logger().get_logger()
 
-load_dotenv()
+# # load_dotenv()
+# # PROJECT_ROOT = os.getcwd()+os.sep+'fictional_bank'+os.sep+'.env'
+# PROJECT_ROOT = Path(__file__).resolve().parents[2]
+# PROJECT_ROOT / "fictional_bank"/'.env'
+# load_dotenv(PROJECT_ROOT, override=True)
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+ENV_FILE = PROJECT_ROOT / "fictional_bank" / ".env"
+
+load_dotenv(dotenv_path=ENV_FILE, override=True)
+
+print(f"ENV file exists: {ENV_FILE.exists()}")
+print(f"LLM model: {os.getenv('LLM_MODEL_NAME')}")
 
 
 
@@ -87,7 +99,7 @@ class LLMModelInitializer:
                 "model": self.llm_model_name,
                 "api_key": self.open_ai_api_key,
                 "temperature": self.temperature,
-                "top_p": self.top_p,
+                # "top_p": self.top_p,
                 "frequency_penalty": self.frequency_penalty,
                 "max_retries": 2,
             }

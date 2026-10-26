@@ -1,0 +1,19 @@
+[
+    {
+        "qa_id": "Q001",
+        "question": "Can you show the customer details for C001?",
+        "expected_agents": [
+            "accounts"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id"
+        ],
+        "expected_answer": "C001 is Aarav Rao (email: aarav.rao1@example.com, status: Active).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            }
+        ]
+    }
+]

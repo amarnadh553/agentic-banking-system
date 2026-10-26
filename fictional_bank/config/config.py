@@ -9,8 +9,13 @@ from dotenv import load_dotenv
 # load_dotenv(PROJECT_ROOT / ".env")
 
 # print(os.getcwd()+os.sep+'fictional_bank'+os.sep+'.env')
-PROJECT_ROOT = os.getcwd()+os.sep+'fictional_bank'+os.sep+'.env'
-load_dotenv(PROJECT_ROOT)
+# PROJECT_ROOT = os.getcwd()+os.sep+'fictional_bank'+os.sep+'.env'
+# load_dotenv(PROJECT_ROOT, override=True)
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+ENV_FILE = PROJECT_ROOT / "fictional_bank" / ".env"
+
+load_dotenv(dotenv_path=ENV_FILE, override=True)
 
 
 def get_env_var(var_name:str, default_value: Any = "", required: bool = True) -> Any:
@@ -46,5 +51,6 @@ class Config:
     TEMPERATURE : float = field(default_factory = lambda : float(get_env_var("TEMPERATURE", default_value="0.0", required=False)))
     TOP_P : float = field(default_factory = lambda : float(get_env_var("TOP_P", default_value="0.0", required=False)))
     FREQUENCY_PENALTY : float = field(default_factory = lambda : float(get_env_var("FREQUENCY_PENALTY", default_value="0.0", required=False)))
+    RESPONSE_LATENCY_THRESHOLD_IN_SECONDS : float = field(default_factory = lambda : float(get_env_var("RESPONSE_LATENCY_THRESHOLD_IN_SECONDS", default_value="30.0", required=True)))
 
-# config = Config()
+
