@@ -9,6 +9,14 @@ from fictional_bank.main import FictionalBankApplication
 from fictional_bank.mcp_client import MCPToolClient
 from fictional_bank.src import Logger
 from fictional_bank.src.utilities import remove_newlines, generate_graph
+from fictional_bank.evaluation.report import Evaluation
+from fictional_bank.config import Config
+
+
+from pathlib import Path
+from fastapi import Header
+from fastapi.concurrency import run_in_threadpool
+from fictional_bank.evaluation.run_eval import create_evaluation_overview
 
 logger = Logger().get_logger(__name__)
 
@@ -126,3 +134,72 @@ async def ask_banking_agent(request: BankingRequest):
     except Exception as exc:
         logger.exception("Banking request processing failed")
         raise HTTPException(status_code=500, detail=f"""Failed to process the banking request.{exc}""")
+
+
+
+
+@app.post("/api/v1/evaluation/run")
+async def run_evaluation(x_evaluation_token: str = Header(default="")):
+    """Run the banking evaluation suite and generate reports."""
+    config = Config()
+    # Load paths from configuration
+    expected_token = config.EVALUATION_API_TOKEN
+    golden_dataset_path = Path(config.EVALUATION_GOLDEN_DATASET_PATH)
+    report_json_path = Path(config.EVALUATION_REPORT_JSON_PATH)
+
+    if not expected_token or x_evaluation_token != expected_token:
+        raise HTTPException(status_code=403, detail="Not authorized to run evaluations.")
+
+    try:
+        # Validate the golden dataset
+        if not golden_dataset_path.exists():
+            raise HTTPException(status_code=404, detail=f"Golden dataset not found: {golden_dataset_path}")
+
+        # Create the report directory if it doesn't exist
+        Path(config.EVALUATION_REPORT_DIR).mkdir(parents=True, exist_ok=True)
+
+        # Initialize evaluator
+        evaluator = Evaluation(
+            golden_dataset_path=str(golden_dataset_path),
+            api_url=config.API_URL,
+            latency_threshold=config.RESPONSE_LATENCY_THRESHOLD_IN_SECONDS,
+            report_json_path=config.EVALUATION_REPORT_JSON_PATH,
+            report_csv_path=config.EVALUATION_REPORT_CSV_PATH,
+        )
+
+        # Run evaluation without blocking the async API server
+        report_rows = await run_in_threadpool(evaluator.run)
+
+        # Generate evaluation overview using configured paths
+        # overview_df = await run_in_threadpool(
+        #     create_evaluation_overview,
+        #     str(report_json_path),
+        #     output_json_path=config.EVALUATION_OVERVIEW_JSON_PATH,
+        #     output_csv_path=config.EVALUATION_OVERVIEW_CSV_PATH,
+        # )
+        overview_df = await run_in_threadpool(
+            create_evaluation_overview,
+            config.EVALUATION_REPORT_JSON_PATH,
+            config.EVALUATION_OVERVIEW_JSON_PATH,
+            config.EVALUATION_OVERVIEW_CSV_PATH,
+        )
+
+        return {
+            "status": "completed",
+            "total_test_cases": len(report_rows),
+            "overview": overview_df.to_dict(orient="records"),
+            "report_paths": {
+                "report_json": config.EVALUATION_REPORT_JSON_PATH,
+                "report_csv": config.EVALUATION_REPORT_CSV_PATH,
+                "overview_json": config.EVALUATION_OVERVIEW_JSON_PATH,
+                "overview_csv": config.EVALUATION_OVERVIEW_CSV_PATH,
+            },
+            "message": "Evaluation reports generated successfully.",
+        }
+
+    except HTTPException:
+        raise
+
+    except Exception as exc:
+        logger.exception("Evaluation execution failed")
+        raise HTTPException(status_code=500, detail=f"Evaluation failed. Check the application logs. {exc}") from exc

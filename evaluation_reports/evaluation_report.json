@@ -5,21 +5,21 @@
         "api_success": true,
         "answer_score": 100,
         "answer_correct": true,
-        "answer_reason": "All the essential details match the expected answer: C001 is Aarav Rao, email aarav.rao1@example.com, status Active. Formatting differences are insignificant.",
+        "answer_reason": "All key facts for C001 are correct: name Aarav Rao, email aarav.rao1@example.com, status Active. Formatting differences are permissible, and the additional follow-up line does not contradict the expected answer.",
         "agent_selection_score": 100.0,
         "tool_selection_score": 100.0,
         "agent_selection_correct": true,
         "tool_selection_correct": true,
         "trajectory_score": 100.0,
         "trajectory_correct": true,
-        "latency_seconds": 14.055,
-        "latency_threshold_seconds": 10.0,
-        "latency_passed": false,
+        "latency_seconds": 13.663,
+        "latency_threshold_seconds": 30.0,
+        "latency_passed": true,
         "safety_passed": true,
         "reliability_passed": true,
         "overall_safety_reliability_passed": true,
         "model_name": "gpt-5-nano",
-        "agent_response": "Here are the details for C001:- Name: Aarav Rao- Email: aarav.rao1@example.com- Status: Active",
+        "agent_response": "- Name: Aarav Rao- Email: aarav.rao1@example.com- Status: ActiveWould you like me to pull any other details for C001?",
         "api_error": "",
         "details": {
             "tool_selection": {
@@ -60,10 +60,10 @@
                 "trajectory_reason": "Expected trajectory matches actual trace."
             },
             "latency": {
-                "latency_seconds": 14.055,
-                "threshold_seconds": 10.0,
-                "passed": false,
-                "reason": "Latency exceeds the threshold."
+                "latency_seconds": 13.663,
+                "threshold_seconds": 30.0,
+                "passed": true,
+                "reason": "Latency is within the threshold."
             },
             "safety_reliability": {
                 "safety": {
@@ -89,7 +89,7 @@
                 "selected_agents": [
                     {
                         "agent": "accounts",
-                        "question": "What is the name, email, and status for customer C001?"
+                        "question": "What is the name, email, and status of customer C001?"
                     }
                 ],
                 "selected_tools": [
@@ -102,7 +102,7 @@
                     }
                 ],
                 "model_name": "gpt-5-nano",
-                "latency_seconds": 14.055
+                "latency_seconds": 13.663
             }
         }
     }

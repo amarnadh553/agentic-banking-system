@@ -3,6 +3,8 @@ import json
 import re
 from pathlib import Path
 import requests
+from fictional_bank.config import Config
+from fictional_bank.models import LLMModelInitializer
 from fictional_bank.models.llm_model import initialize_llm
 
 llm = initialize_llm()
@@ -261,18 +263,28 @@ def evaluate_safety_reliability(actual_response):
 
 
 class Evaluation:
-    """Run all evaluators against golden cases and write JSON and CSV reports."""
+    def __init__(self, golden_dataset_path, api_url, latency_threshold, report_json_path, report_csv_path):
+        from fictional_bank.src import Logger
+        self.logger = Logger().get_logger(__name__)
+        self.config = Config()
+        self.llm_model_initializer = LLMModelInitializer(
+            llm_model_name=self.config.LLM_MODEL_NAME,
+            open_ai_api_key=self.config.OPENAI_API_KEY,
+            temperature=self.config.TEMPERATURE,
+            frequency_penalty=self.config.FREQUENCY_PENALTY,
+            logger=self.logger,
+        )
+        self.llm = self.llm_model_initializer.initialise_llm_model()
 
-    def __init__(self, golden_dataset_path, api_url="http://127.0.0.1:8000/api/v1/banking/ask",
-                 latency_threshold=10.0, timeout=120):
         self.golden_dataset_path = Path(golden_dataset_path)
         self.api_url = api_url
         self.latency_threshold = latency_threshold
-        self.timeout = timeout
-        self.llm = llm
+        self.report_json_path = Path(report_json_path)
+        self.report_csv_path = Path(report_csv_path)
+        self.timeout = 60
 
     @staticmethod
-    def _load_cases(data):
+    def load_cases(data):
         if isinstance(data, list):
             return data
         if isinstance(data, dict):
@@ -292,19 +304,20 @@ class Evaluation:
             "get_customer_accounts_based_on_customer_id": "accounts",
             "get_account_balance": "accounts",
             "get_total_balance": "accounts",
+
             "get_recent_transactions": "transactions",
             "search_transactions_by_date": "transactions",
             "filter_transactions_by_type": "transactions",
             "calculate_total_debits": "transactions",
             "calculate_total_credits": "transactions",
+
             "get_service_requests": "service",
             "get_request_status": "service",
             "get_pending_requests": "service",
             "count_service_requests": "service",
         }
         tools = case.get("expected_tools", case.get("expeced_tools", [])) or []
-        return [{"agent": tool_to_agent[tool], "tool": tool}
-                for tool in tools if tool in tool_to_agent]
+        return [{"agent": tool_to_agent[tool], "tool": tool} for tool in tools if tool in tool_to_agent]
 
     def _call_api(self, question):
         response = requests.post(self.api_url, json={"question": question}, timeout=self.timeout)
@@ -314,7 +327,7 @@ class Evaluation:
     def run(self):
         with self.golden_dataset_path.open("r", encoding="utf-8") as f:
             golden_data = json.load(f)
-        cases = self._load_cases(golden_data)
+        cases = self.load_cases(golden_data)
         report_rows = []
 
         for index, case in enumerate(cases, start=1):
@@ -387,9 +400,10 @@ class Evaluation:
                 })
             report_rows.append(row)
 
-        output_dir = self.golden_dataset_path.parent
-        json_path = output_dir / "evaluation_report.json"
-        csv_path = output_dir / "evaluation_report.csv"
+        json_path = self.report_json_path
+        csv_path = self.report_csv_path
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
 
         # JSON retains nested diagnostic details; CSV flattens summary columns.
         with json_path.open("w", encoding="utf-8") as f:
@@ -419,11 +433,11 @@ class Evaluation:
         return report_rows
 
 
-if __name__ == "__main__":
-    GOLDEN_DATASET_PATH = r"C:\Users\Amarnadh\Documents\DATA_SCIENCE\LEARNING\AGENTIC_AI\fictional_bank_bot\fictional_bank\evaluation\golden\gold_test.json"
-    evaluator = Evaluation(
-        golden_dataset_path=GOLDEN_DATASET_PATH,
-        api_url="http://127.0.0.1:8000/api/v1/banking/ask",
-        latency_threshold=10.0,
-    )
-    evaluator.run()
+# if __name__ == "__main__":
+#     GOLDEN_DATASET_PATH = r"C:\Users\Amarnadh\Documents\DATA_SCIENCE\LEARNING\AGENTIC_AI\fictional_bank_bot\fictional_bank\evaluation\golden\gold_test.json"
+#     evaluator = Evaluation(
+#         golden_dataset_path=GOLDEN_DATASET_PATH,
+#         api_url="http://127.0.0.1:8000/api/v1/banking/ask",
+#         latency_threshold=10.0,
+#     )
+#     evaluator.run()

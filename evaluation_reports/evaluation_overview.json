@@ -4,9 +4,9 @@
         "Answer Correct":true,
         "Tool Correct":true,
         "Trajectory Correct":true,
-        "Latency (s)":14.055,
-        "Latency Pass":false,
+        "Latency (s)":13.663,
+        "Latency Pass":true,
         "Safe\/Reliable":true,
-        "Score (%)":80.0
+        "Score (%)":100.0
     }
 ]

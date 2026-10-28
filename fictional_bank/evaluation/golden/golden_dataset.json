@@ -3,7 +3,7 @@
         "qa_id": "Q001",
         "question": "Can you show the customer details for C001?",
         "expected_agents": [
-            "account"
+            "accounts"
         ],
         "expeced_tools": [
             "get_customer_details_based_on_id"
@@ -20,7 +20,7 @@
         "qa_id": "Q002",
         "question": "What is the email address and status of customer C027?",
         "expected_agents": [
-            "account"
+            "accounts"
         ],
         "expeced_tools": [
             "get_customer_details_based_on_id"
@@ -37,7 +37,7 @@
         "qa_id": "Q003",
         "question": "List all bank accounts for customer C002.",
         "expected_agents": [
-            "account"
+            "accounts"
         ],
         "expeced_tools": [
             "get_customer_accounts_based_on_customer_id"
@@ -54,7 +54,7 @@
         "qa_id": "Q004",
         "question": "What is the balance of account A0002 for customer C001?",
         "expected_agents": [
-            "account"
+            "accounts"
         ],
         "expeced_tools": [
             "get_account_balance"
@@ -71,7 +71,7 @@
         "qa_id": "Q005",
         "question": "What is the total balance across all accounts for C003?",
         "expected_agents": [
-            "account"
+            "accounts"
         ],
         "expeced_tools": [
             "get_total_balance"
@@ -88,7 +88,7 @@
         "qa_id": "Q006",
         "question": "How much money does customer C004 have in total?",
         "expected_agents": [
-            "account"
+            "accounts"
         ],
         "expeced_tools": [
             "get_total_balance"
@@ -105,7 +105,7 @@
         "qa_id": "Q007",
         "question": "Show me the accounts for C042 and tell me if any of them are not active.",
         "expected_agents": [
-            "account"
+            "accounts"
         ],
         "expeced_tools": [
             "get_customer_accounts_based_on_customer_id"
@@ -122,7 +122,7 @@
         "qa_id": "Q008",
         "question": "Is account A0021 blocked? It belongs to customer C013.",
         "expected_agents": [
-            "account"
+            "accounts"
         ],
         "expeced_tools": [
             "get_account_balance"
@@ -139,7 +139,7 @@
         "qa_id": "Q009",
         "question": "Show details for customer C999.",
         "expected_agents": [
-            "account"
+            "accounts"
         ],
         "expeced_tools": [
             "get_customer_details_based_on_id"
@@ -156,7 +156,7 @@
         "qa_id": "Q010",
         "question": "What is the balance of account A0003 for customer C001?",
         "expected_agents": [
-            "account"
+            "accounts"
         ],
         "expeced_tools": [
             "get_account_balance"
@@ -173,7 +173,7 @@
         "qa_id": "Q011",
         "question": "Show the last 5 transactions for customer C001.",
         "expected_agents": [
-            "transaction"
+            "transactions"
         ],
         "expeced_tools": [
             "get_recent_transactions"
@@ -190,7 +190,7 @@
         "qa_id": "Q012",
         "question": "Show the last 3 transactions for C005.",
         "expected_agents": [
-            "transaction"
+            "transactions"
         ],
         "expeced_tools": [
             "get_recent_transactions"
@@ -207,7 +207,7 @@
         "qa_id": "Q013",
         "question": "List C001's transactions between 01-08-2026 and 31-08-2026.",
         "expected_agents": [
-            "transaction"
+            "transactions"
         ],
         "expeced_tools": [
             "search_transactions_by_date"
@@ -224,7 +224,7 @@
         "qa_id": "Q014",
         "question": "Show me the debit transactions for C005.",
         "expected_agents": [
-            "transaction"
+            "transactions"
         ],
         "expeced_tools": [
             "filter_transactions_by_type"
@@ -241,7 +241,7 @@
         "qa_id": "Q015",
         "question": "Show me all credit transactions for customer C006.",
         "expected_agents": [
-            "transaction"
+            "transactions"
         ],
         "expeced_tools": [
             "filter_transactions_by_type"
@@ -258,7 +258,7 @@
         "qa_id": "Q016",
         "question": "What is the total amount debited from C001's accounts?",
         "expected_agents": [
-            "transaction"
+            "transactions"
         ],
         "expeced_tools": [
             "calculate_total_debits"
@@ -275,7 +275,7 @@
         "qa_id": "Q017",
         "question": "How much was credited to C001 in October 2026?",
         "expected_agents": [
-            "transaction"
+            "transactions"
         ],
         "expeced_tools": [
             "calculate_total_credits"
@@ -292,7 +292,7 @@
         "qa_id": "Q018",
         "question": "Calculate total debits for C002 from 01-07-2026 to 30-09-2026.",
         "expected_agents": [
-            "transaction"
+            "transactions"
         ],
         "expeced_tools": [
             "calculate_total_debits"
@@ -309,7 +309,7 @@
         "qa_id": "Q019",
         "question": "What is the total of all credits received by C007?",
         "expected_agents": [
-            "transaction"
+            "transactions"
         ],
         "expeced_tools": [
             "calculate_total_credits"
@@ -326,7 +326,7 @@
         "qa_id": "Q020",
         "question": "Did C005 have any transactions between 01-01-2025 and 31-01-2025?",
         "expected_agents": [
-            "transaction"
+            "transactions"
         ],
         "expeced_tools": [
             "search_transactions_by_date"
@@ -343,7 +343,7 @@
         "qa_id": "Q021",
         "question": "Show C001's transactions from 31-08-2026 to 01-08-2026.",
         "expected_agents": [
-            "transaction"
+            "transactions"
         ],
         "expeced_tools": [
             "search_transactions_by_date"
@@ -360,7 +360,7 @@
         "qa_id": "Q022",
         "question": "Show me all loan transactions for C001.",
         "expected_agents": [
-            "transaction"
+            "transactions"
         ],
         "expeced_tools": [
             "filter_transactions_by_type"
@@ -377,7 +377,7 @@
         "qa_id": "Q023",
         "question": "Show the last 150 transactions for C003.",
         "expected_agents": [
-            "transaction"
+            "transactions"
         ],
         "expeced_tools": [
             "get_recent_transactions"
@@ -598,8 +598,8 @@
         "qa_id": "Q037",
         "question": "Show C003's name, last 3 transactions and pending requests.",
         "expected_agents": [
-            "account",
-            "transaction",
+            "accounts",
+            "transactions",
             "service"
         ],
         "expeced_tools": [
@@ -627,8 +627,8 @@
         "qa_id": "Q038",
         "question": "Show C007's name, last 3 transactions and pending requests.",
         "expected_agents": [
-            "account",
-            "transaction",
+            "accounts",
+            "transactions",
             "service"
         ],
         "expeced_tools": [
@@ -656,8 +656,8 @@
         "qa_id": "Q039",
         "question": "For C001, give me the customer name, total balance and last 5 transactions.",
         "expected_agents": [
-            "account",
-            "transaction"
+            "accounts",
+            "transactions"
         ],
         "expeced_tools": [
             "get_customer_details_based_on_id",
@@ -684,7 +684,7 @@
         "qa_id": "Q040",
         "question": "What is C004's total balance and does C004 have any pending requests?",
         "expected_agents": [
-            "account",
+            "accounts",
             "service"
         ],
         "expeced_tools": [
@@ -707,7 +707,7 @@
         "qa_id": "Q041",
         "question": "Give me C010's name, email and pending service requests.",
         "expected_agents": [
-            "account",
+            "accounts",
             "service"
         ],
         "expeced_tools": [
@@ -730,8 +730,8 @@
         "qa_id": "Q042",
         "question": "List C002's accounts and tell me the total debited from them.",
         "expected_agents": [
-            "account",
-            "transaction"
+            "accounts",
+            "transactions"
         ],
         "expeced_tools": [
             "get_customer_accounts_based_on_customer_id",
@@ -753,8 +753,8 @@
         "qa_id": "Q043",
         "question": "Show C005's details, the last 3 transactions and how many service requests they have.",
         "expected_agents": [
-            "account",
-            "transaction",
+            "accounts",
+            "transactions",
             "service"
         ],
         "expeced_tools": [
@@ -782,7 +782,7 @@
         "qa_id": "Q044",
         "question": "Show customer details for C036 and the status of request R0051.",
         "expected_agents": [
-            "account",
+            "accounts",
             "service"
         ],
         "expeced_tools": [
@@ -805,8 +805,8 @@
         "qa_id": "Q045",
         "question": "What is C001's name, total credits in August 2026 and all their service requests?",
         "expected_agents": [
-            "account",
-            "transaction",
+            "accounts",
+            "transactions",
             "service"
         ],
         "expeced_tools": [
@@ -834,8 +834,8 @@
         "qa_id": "Q046",
         "question": "Check the balance of C013's blocked account A0021 and show their last 2 transactions.",
         "expected_agents": [
-            "account",
-            "transaction"
+            "accounts",
+            "transactions"
         ],
         "expeced_tools": [
             "get_account_balance",
@@ -857,8 +857,8 @@
         "qa_id": "Q047",
         "question": "For C007 show the total balance, total debits and pending requests.",
         "expected_agents": [
-            "account",
-            "transaction",
+            "accounts",
+            "transactions",
             "service"
         ],
         "expeced_tools": [
@@ -886,7 +886,7 @@
         "qa_id": "Q048",
         "question": "Customer C027 is inactive. Show their details and any service requests.",
         "expected_agents": [
-            "account",
+            "accounts",
             "service"
         ],
         "expeced_tools": [
@@ -909,8 +909,8 @@
         "qa_id": "Q049",
         "question": "Give me a full summary of C012: name, total balance, last 3 transactions and pending requests.",
         "expected_agents": [
-            "account",
-            "transaction",
+            "accounts",
+            "transactions",
             "service"
         ],
         "expeced_tools": [
@@ -943,7 +943,7 @@
         "qa_id": "Q050",
         "question": "Show the name, last 3 transactions and pending requests for customer C999.",
         "expected_agents": [
-            "account"
+            "accounts"
         ],
         "expeced_tools": [
             "get_customer_details_based_on_id"
