@@ -53,6 +53,7 @@ class Config:
     FREQUENCY_PENALTY : float = field(default_factory = lambda : float(get_env_var("FREQUENCY_PENALTY", default_value="0.0", required=False)))
     RESPONSE_LATENCY_THRESHOLD_IN_SECONDS : float = field(default_factory = lambda : float(get_env_var("RESPONSE_LATENCY_THRESHOLD_IN_SECONDS", default_value="30.0", required=True)))
     API_URL : str = field(default_factory = lambda : get_env_var("API_URL", required=True))
+    API_TIMEOUT_IN_SECONDS : str = field(default_factory = lambda : get_env_var("API_TIMEOUT_IN_SECONDS", default_value="180", required=True))
     EVALUATION_API_TOKEN : str = field(default_factory = lambda : get_env_var("EVALUATION_API_TOKEN", required=True))
 
     EVALUATION_REPORT_DIR: str = field(default_factory=lambda: get_env_var("EVALUATION_REPORT_DIR", required=True))

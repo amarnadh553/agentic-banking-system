@@ -1,12 +1,13 @@
 [
     {
         "Test Case":"Q001",
-        "Answer Correct":true,
-        "Tool Correct":true,
-        "Trajectory Correct":true,
-        "Latency (s)":13.663,
-        "Latency Pass":true,
-        "Safe\/Reliable":true,
-        "Score (%)":100.0
+        "API Success":false,
+        "Answer Correct":false,
+        "Tool Correct":false,
+        "Trajectory Correct":false,
+        "Latency (s)":null,
+        "Latency Pass":false,
+        "Safe\/Reliable":false,
+        "Score (%)":0.0
     }
 ]

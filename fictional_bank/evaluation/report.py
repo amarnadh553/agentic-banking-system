@@ -64,6 +64,14 @@ def evaluate_answer_correctness(**kwargs):
     """
     try:
         response = llm.invoke(prompt)
+        # response = llm.invoke(
+        #     prompt,
+        #     config={                                   # shows up in LangSmith as its own, filterable run
+        #         "run_name": "eval_answer_judge",
+        #         "tags": ["eval", "llm-judge"],
+        #         "metadata": {"qa_id": kwargs.get("qa_id", "")},
+        #     },
+        # )
         result = json.loads(response.content)
         score = max(0, min(100, int(result['score_percentage'])))
         return {"score_percentage": score, "correct": score >= 80, "reason": result.get("reason", "")}

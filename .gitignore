@@ -22,6 +22,7 @@ logs/
 # Project-specific files
 fictional_bank_bot.egg-info/
 notebooks/
+evaluation_reports/
 
 # Lock files (optional: keep if using uv for reproducible installs)
 # *.lock

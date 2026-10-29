@@ -6,7 +6,7 @@ import traceback
 from mcp.server.fastmcp import FastMCP
 
 from fictional_bank.config import Config
-from fictional_bank.main import FictionalBankApplication
+from fictional_bank.services import FictionalBankApplication
 from fictional_bank.mcp_client import MCPToolClient
 from fictional_bank.src import Logger
 
