@@ -1,13 +1,24 @@
 [
     {
         "Test Case":"Q001",
-        "API Success":false,
-        "Answer Correct":false,
+        "API Success":true,
+        "Answer Correct":true,
         "Tool Correct":false,
         "Trajectory Correct":false,
-        "Latency (s)":null,
-        "Latency Pass":false,
-        "Safe\/Reliable":false,
-        "Score (%)":0.0
+        "Latency (s)":14.381,
+        "Latency Pass":true,
+        "Safe\/Reliable":true,
+        "Score (%)":85.0
+    },
+    {
+        "Test Case":"Q002",
+        "API Success":true,
+        "Answer Correct":true,
+        "Tool Correct":true,
+        "Trajectory Correct":true,
+        "Latency (s)":10.526,
+        "Latency Pass":true,
+        "Safe\/Reliable":true,
+        "Score (%)":100.0
     }
 ]

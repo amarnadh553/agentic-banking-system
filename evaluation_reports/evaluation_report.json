@@ -2,25 +2,232 @@
     {
         "qa_id": "Q001",
         "question": "Can you show the customer details for C001?",
-        "api_success": false,
-        "answer_score": null,
-        "answer_correct": null,
-        "answer_reason": null,
-        "agent_selection_score": null,
-        "tool_selection_score": null,
-        "agent_selection_correct": null,
-        "tool_selection_correct": null,
-        "trajectory_score": null,
-        "trajectory_correct": null,
-        "latency_seconds": null,
+        "api_success": true,
+        "answer_score": 100,
+        "answer_correct": true,
+        "answer_reason": "The response correctly identifies C001 as Aarav Rao with the email aarav.rao1@example.com and status Active, matching the expected answer. It also includes additional account details, which do not contradict the expected facts and are not required by the question.",
+        "agent_selection_score": 100.0,
+        "tool_selection_score": 50.0,
+        "agent_selection_correct": true,
+        "tool_selection_correct": false,
+        "trajectory_score": 50.0,
+        "trajectory_correct": false,
+        "latency_seconds": 14.381,
         "latency_threshold_seconds": 30.0,
-        "latency_passed": false,
-        "safety_passed": null,
-        "reliability_passed": false,
-        "overall_safety_reliability_passed": false,
-        "model_name": null,
-        "agent_response": "",
-        "api_error": "HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /api/v1/banking/api/v1/banking/ask (Caused by NewConnectionError(\"HTTPConnection(host='127.0.0.1', port=8001): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
-        "details": {}
+        "latency_passed": true,
+        "safety_passed": true,
+        "reliability_passed": true,
+        "overall_safety_reliability_passed": true,
+        "model_name": "gpt-5-nano",
+        "agent_response": "- Name: Aarav Rao- Email: aarav.rao1@example.com- Status: ActiveAccounts:- A0001 — Salary — INR 196499.04 — Active- A0002 — Current — INR 242631.13 — Active",
+        "api_error": "",
+        "details": {
+            "tool_selection": {
+                "agent_selection_score": 100.0,
+                "tool_selection_score": 50.0,
+                "agent_selection_correct": true,
+                "tool_selection_correct": false,
+                "expected_agents": [
+                    "accounts"
+                ],
+                "actual_agents": [
+                    "accounts"
+                ],
+                "expected_tools": [
+                    "get_customer_details_based_on_id"
+                ],
+                "actual_tools": [
+                    "get_customer_accounts_based_on_customer_id",
+                    "get_customer_details_based_on_id"
+                ]
+            },
+            "trajectory": {
+                "trajectory_score": 50.0,
+                "trajectory_correct": false,
+                "expected_trajectory": [
+                    {
+                        "agent": "accounts",
+                        "tool": "get_customer_details_based_on_id"
+                    }
+                ],
+                "actual_trajectory": [
+                    {
+                        "agent": "accounts",
+                        "tool": "get_customer_details_based_on_id"
+                    },
+                    {
+                        "agent": "accounts",
+                        "tool": "get_customer_accounts_based_on_customer_id"
+                    }
+                ],
+                "missing_steps": [],
+                "unexpected_steps": [
+                    {
+                        "agent": "accounts",
+                        "tool": "get_customer_accounts_based_on_customer_id"
+                    }
+                ],
+                "trajectory_reason": "Expected and actual trajectories differ."
+            },
+            "latency": {
+                "latency_seconds": 14.381,
+                "threshold_seconds": 30.0,
+                "passed": true,
+                "reason": "Latency is within the threshold."
+            },
+            "safety_reliability": {
+                "safety": {
+                    "passed": true,
+                    "checks": {
+                        "no_api_key_exposure": true,
+                        "no_traceback_exposure": true
+                    }
+                },
+                "reliability": {
+                    "passed": true,
+                    "checks": {
+                        "response_present": true,
+                        "trace_present": true,
+                        "model_name_present": true,
+                        "latency_present": true
+                    }
+                },
+                "overall_passed": true
+            },
+            "trace": {
+                "selected_agent": "accounts",
+                "selected_agents": [
+                    {
+                        "agent": "accounts",
+                        "question": "What is the name, email, and status of customer C001, and what accounts are associated with C001?"
+                    }
+                ],
+                "selected_tools": [
+                    {
+                        "agent": "accounts",
+                        "tool": "get_customer_details_based_on_id",
+                        "args": {
+                            "customer_id": "C001"
+                        }
+                    },
+                    {
+                        "agent": "accounts",
+                        "tool": "get_customer_accounts_based_on_customer_id",
+                        "args": {
+                            "customer_id": "C001"
+                        }
+                    }
+                ],
+                "model_name": "gpt-5-nano",
+                "latency_seconds": 14.381
+            }
+        }
+    },
+    {
+        "qa_id": "Q002",
+        "question": "What is the email address and status of customer C027?",
+        "api_success": true,
+        "answer_score": 100,
+        "answer_correct": true,
+        "answer_reason": "Agent correctly provided the email and status for customer C027. The missing name is extra information; the required fields (email and status) match the expected answer.",
+        "agent_selection_score": 100.0,
+        "tool_selection_score": 100.0,
+        "agent_selection_correct": true,
+        "tool_selection_correct": true,
+        "trajectory_score": 100.0,
+        "trajectory_correct": true,
+        "latency_seconds": 10.526,
+        "latency_threshold_seconds": 30.0,
+        "latency_passed": true,
+        "safety_passed": true,
+        "reliability_passed": true,
+        "overall_safety_reliability_passed": true,
+        "model_name": "gpt-5-nano",
+        "agent_response": "- Email: pranav.mishra27@example.com- Status: Inactive",
+        "api_error": "",
+        "details": {
+            "tool_selection": {
+                "agent_selection_score": 100.0,
+                "tool_selection_score": 100.0,
+                "agent_selection_correct": true,
+                "tool_selection_correct": true,
+                "expected_agents": [
+                    "accounts"
+                ],
+                "actual_agents": [
+                    "accounts"
+                ],
+                "expected_tools": [
+                    "get_customer_details_based_on_id"
+                ],
+                "actual_tools": [
+                    "get_customer_details_based_on_id"
+                ]
+            },
+            "trajectory": {
+                "trajectory_score": 100.0,
+                "trajectory_correct": true,
+                "expected_trajectory": [
+                    {
+                        "agent": "accounts",
+                        "tool": "get_customer_details_based_on_id"
+                    }
+                ],
+                "actual_trajectory": [
+                    {
+                        "agent": "accounts",
+                        "tool": "get_customer_details_based_on_id"
+                    }
+                ],
+                "missing_steps": [],
+                "unexpected_steps": [],
+                "trajectory_reason": "Expected trajectory matches actual trace."
+            },
+            "latency": {
+                "latency_seconds": 10.526,
+                "threshold_seconds": 30.0,
+                "passed": true,
+                "reason": "Latency is within the threshold."
+            },
+            "safety_reliability": {
+                "safety": {
+                    "passed": true,
+                    "checks": {
+                        "no_api_key_exposure": true,
+                        "no_traceback_exposure": true
+                    }
+                },
+                "reliability": {
+                    "passed": true,
+                    "checks": {
+                        "response_present": true,
+                        "trace_present": true,
+                        "model_name_present": true,
+                        "latency_present": true
+                    }
+                },
+                "overall_passed": true
+            },
+            "trace": {
+                "selected_agent": "accounts",
+                "selected_agents": [
+                    {
+                        "agent": "accounts",
+                        "question": "What is the email address and status of customer C027?"
+                    }
+                ],
+                "selected_tools": [
+                    {
+                        "agent": "accounts",
+                        "tool": "get_customer_details_based_on_id",
+                        "args": {
+                            "customer_id": "C027"
+                        }
+                    }
+                ],
+                "model_name": "gpt-5-nano",
+                "latency_seconds": 10.526
+            }
+        }
     }
 ]

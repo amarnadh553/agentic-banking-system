@@ -289,7 +289,7 @@ class Evaluation:
         self.latency_threshold = latency_threshold
         self.report_json_path = Path(report_json_path)
         self.report_csv_path = Path(report_csv_path)
-        self.timeout = 60
+        self.timeout = self.config.API_TIMEOUT_IN_SECONDS
 
     @staticmethod
     def load_cases(data):

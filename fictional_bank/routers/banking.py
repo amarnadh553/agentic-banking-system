@@ -13,7 +13,7 @@ logger = Logger().get_logger(__name__)
 router = APIRouter(prefix="/api/v1/banking", tags=["Banking"])
 
 
-@router.post("/api/v1/banking/ask", response_model=BankingResponse)
+@router.post("/ask", response_model=BankingResponse)
 async def ask_banking_agent(request: Request, payload: BankingRequest):
     question = payload.question.strip()
     if not question:

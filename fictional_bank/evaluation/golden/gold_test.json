@@ -15,5 +15,22 @@
                 "tool": "get_customer_details_based_on_id"
             }
         ]
+    },
+    {
+        "qa_id": "Q002",
+        "question": "What is the email address and status of customer C027?",
+        "expected_agents": [
+            "accounts"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id"
+        ],
+        "expected_answer": "C027 is Pranav Mishra (email: pranav.mishra27@example.com, status: Inactive). The customer is Inactive.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            }
+        ]
     }
 ]

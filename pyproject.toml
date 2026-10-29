@@ -31,3 +31,6 @@ include = ["fictional_bank*"]
 dev = [
     "setuptools>=64",
 ]
+
+[project.scripts]
+start_app = "fictional_bank.main:start"

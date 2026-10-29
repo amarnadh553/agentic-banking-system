@@ -1,2 +1,3 @@
 Test Case,API Success,Answer Correct,Tool Correct,Trajectory Correct,Latency (s),Latency Pass,Safe/Reliable,Score (%)
-Q001,False,False,False,False,,False,False,0.0
+Q001,True,True,False,False,14.381,True,True,85.0
+Q002,True,True,True,True,10.526,True,True,100.0
