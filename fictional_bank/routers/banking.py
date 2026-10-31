@@ -6,6 +6,8 @@ from fictional_bank.src.utilities import remove_newlines, generate_graph
 from fictional_bank.models.banking import BankingResponse, BankingRequest, ExecutionTrace
 from fictional_bank.src.utilities import get_selected_agents, get_selected_tools
 from langchain_core.callbacks import get_usage_metadata_callback
+from fictional_bank.guardrails import InputGuardrail, OutputGuardrail
+from fictional_bank.config.constants import BLOCKED_KEYWORDS, BLOCKED_PHARASES
 
 logger = Logger().get_logger(__name__)
 
@@ -24,6 +26,12 @@ async def ask_banking_agent(request: Request, payload: BankingRequest):
     question = payload.question.strip()
     if not question:
         raise HTTPException(status_code=400, detail="Please provide a banking question.")
+    input_guardrail = InputGuardrail(BLOCKED_KEYWORDS, BLOCKED_PHARASES)
+    guardrail_result = input_guardrail.check(question)
+    if guardrail_result["blocked"]:
+        logger.warning("Banking request blocked by input guardrail")
+        return BankingResponse(reasoning="The request was blocked by deterministic input guardrails.", response=("I'm sorry, but I can't assist with that request. Please ask a question related to your banking services."))
+    
     logger.info("Banking request received")
     try:
         banking_app = request.app.state.banking_app
@@ -39,6 +47,13 @@ async def ask_banking_agent(request: Request, payload: BankingRequest):
             generate_graph(banking_app)
 
         answer = result.get("response", "")
+        output_guardrail = OutputGuardrail()
+        out = output_guardrail.check(answer)
+        if out["blocked"]:
+            logger.warning("Response blocked by output guardrail: %s", out["matched_leaks"])
+            answer = "I'm sorry, I can't share that response. Please try rephrasing your question."
+        else:
+            answer = out["answer"]
         trace = None
         if payload.include_trace:
             models = list(usage.usage_metadata.values())

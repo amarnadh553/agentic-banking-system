@@ -6,7 +6,7 @@ class BankingRequest(BaseModel):
     question: str = Field(..., min_length=1, description="Banking question, including customer ID when relevant.", examples=["What accounts does customer C001 have?"])
     visualize_graph: bool = Field(default=False, description="Whether to generate the banking graph visualization.")
     keep_formatting: bool = Field(default=False, description="Keep line breaks (markdown lists and tables) in the response. Used by the Streamlit UI.")
-    include_trace: bool = Field(default=False, description="Return the execution trace (agents, tools, tokens, cost, latency). Meant for debugging and evaluation.")
+    include_trace: bool = Field(default=True, description="Return the execution trace (agents, tools, tokens, cost, latency). Meant for debugging and evaluation.")
 
 
 class ExecutionTrace(BaseModel):

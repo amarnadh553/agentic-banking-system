@@ -29,6 +29,11 @@ class BuildGraph:
             if task.agent != "clarification":
                 tasks.setdefault(task.agent, task.question)
 
+        # Single agent: pass the user's original question through, so the router can't rewrite or over-expand it
+        if len(tasks) == 1:
+            only_agent = next(iter(tasks))
+            tasks[only_agent] = state["question"]
+
         return {
             "tasks": [{"agent": agent, "question": question} for agent, question in tasks.items()],
             "selected_agent": ",".join(tasks) or "clarification",

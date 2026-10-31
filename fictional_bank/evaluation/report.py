@@ -321,7 +321,7 @@ class Evaluation:
         return [{"agent": tool_to_agent[tool], "tool": tool} for tool in tools if tool in tool_to_agent]
 
     def _call_api(self, question):
-        response = requests.post(self.api_url, json={"question": question}, timeout=self.timeout)
+        response = requests.post(self.api_url, json={"question": question, "include_trace": True}, timeout=self.timeout)
         response.raise_for_status()
         return response.json()
 

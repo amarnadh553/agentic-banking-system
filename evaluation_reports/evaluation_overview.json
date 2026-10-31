@@ -3,12 +3,12 @@
         "Test Case":"Q001",
         "API Success":true,
         "Answer Correct":true,
-        "Tool Correct":false,
-        "Trajectory Correct":false,
-        "Latency (s)":14.381,
+        "Tool Correct":true,
+        "Trajectory Correct":true,
+        "Latency (s)":9.004,
         "Latency Pass":true,
         "Safe\/Reliable":true,
-        "Score (%)":85.0
+        "Score (%)":100.0
     },
     {
         "Test Case":"Q002",
@@ -16,7 +16,7 @@
         "Answer Correct":true,
         "Tool Correct":true,
         "Trajectory Correct":true,
-        "Latency (s)":10.526,
+        "Latency (s)":6.155,
         "Latency Pass":true,
         "Safe\/Reliable":true,
         "Score (%)":100.0

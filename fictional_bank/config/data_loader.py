@@ -26,9 +26,12 @@ service_requests_df = load_csv("service_requests.csv")
 transactions_df['transaction_date'] = pd.to_datetime(transactions_df['transaction_date'], errors='coerce')
 service_requests_df['request_date'] = pd.to_datetime(service_requests_df['request_date'], errors='coerce')
 
+def _same_id(series: pd.Series, customer_id) -> pd.Series:
+    return series.astype(str).str.strip().str.upper() == str(customer_id).strip().upper()
+
 def get_customer_accounts_df(customer_id:str)->pd.DataFrame:
     """Get Accounts for a given customer ID"""
-    customer_accounts_df = accounts_df[accounts_df['customer_id']==customer_id]
+    customer_accounts_df = accounts_df[_same_id(accounts_df['customer_id'], customer_id)]
     return customer_accounts_df
 
 

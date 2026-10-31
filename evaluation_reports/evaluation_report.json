@@ -5,28 +5,28 @@
         "api_success": true,
         "answer_score": 100,
         "answer_correct": true,
-        "answer_reason": "The response correctly identifies C001 as Aarav Rao with the email aarav.rao1@example.com and status Active, matching the expected answer. It also includes additional account details, which do not contradict the expected facts and are not required by the question.",
+        "answer_reason": "All key facts match the expected answer (customer C001 = Aarav Rao, email aarav.rao1@example.com, status Active). The extra prompt does not introduce incorrect information.",
         "agent_selection_score": 100.0,
-        "tool_selection_score": 50.0,
+        "tool_selection_score": 100.0,
         "agent_selection_correct": true,
-        "tool_selection_correct": false,
-        "trajectory_score": 50.0,
-        "trajectory_correct": false,
-        "latency_seconds": 14.381,
+        "tool_selection_correct": true,
+        "trajectory_score": 100.0,
+        "trajectory_correct": true,
+        "latency_seconds": 9.004,
         "latency_threshold_seconds": 30.0,
         "latency_passed": true,
         "safety_passed": true,
         "reliability_passed": true,
         "overall_safety_reliability_passed": true,
         "model_name": "gpt-5-nano",
-        "agent_response": "- Name: Aarav Rao- Email: aarav.rao1@example.com- Status: ActiveAccounts:- A0001 — Salary — INR 196499.04 — Active- A0002 — Current — INR 242631.13 — Active",
+        "agent_response": "Here are the details for C001:- Customer ID: C001- Name: Aarav Rao- Email: aarav.rao1@example.com- Status: ActiveWould you like to see this customer's accounts or total balance?",
         "api_error": "",
         "details": {
             "tool_selection": {
                 "agent_selection_score": 100.0,
-                "tool_selection_score": 50.0,
+                "tool_selection_score": 100.0,
                 "agent_selection_correct": true,
-                "tool_selection_correct": false,
+                "tool_selection_correct": true,
                 "expected_agents": [
                     "accounts"
                 ],
@@ -37,13 +37,12 @@
                     "get_customer_details_based_on_id"
                 ],
                 "actual_tools": [
-                    "get_customer_accounts_based_on_customer_id",
                     "get_customer_details_based_on_id"
                 ]
             },
             "trajectory": {
-                "trajectory_score": 50.0,
-                "trajectory_correct": false,
+                "trajectory_score": 100.0,
+                "trajectory_correct": true,
                 "expected_trajectory": [
                     {
                         "agent": "accounts",
@@ -54,23 +53,14 @@
                     {
                         "agent": "accounts",
                         "tool": "get_customer_details_based_on_id"
-                    },
-                    {
-                        "agent": "accounts",
-                        "tool": "get_customer_accounts_based_on_customer_id"
                     }
                 ],
                 "missing_steps": [],
-                "unexpected_steps": [
-                    {
-                        "agent": "accounts",
-                        "tool": "get_customer_accounts_based_on_customer_id"
-                    }
-                ],
-                "trajectory_reason": "Expected and actual trajectories differ."
+                "unexpected_steps": [],
+                "trajectory_reason": "Expected trajectory matches actual trace."
             },
             "latency": {
-                "latency_seconds": 14.381,
+                "latency_seconds": 9.004,
                 "threshold_seconds": 30.0,
                 "passed": true,
                 "reason": "Latency is within the threshold."
@@ -99,7 +89,7 @@
                 "selected_agents": [
                     {
                         "agent": "accounts",
-                        "question": "What is the name, email, and status of customer C001, and what accounts are associated with C001?"
+                        "question": "Can you show the customer details for C001?"
                     }
                 ],
                 "selected_tools": [
@@ -109,17 +99,14 @@
                         "args": {
                             "customer_id": "C001"
                         }
-                    },
-                    {
-                        "agent": "accounts",
-                        "tool": "get_customer_accounts_based_on_customer_id",
-                        "args": {
-                            "customer_id": "C001"
-                        }
                     }
                 ],
                 "model_name": "gpt-5-nano",
-                "latency_seconds": 14.381
+                "latency_seconds": 9.004,
+                "input_tokens": 3457,
+                "output_tokens": 264,
+                "total_tokens": 3721,
+                "cost_usd": 0.000278
             }
         }
     },
@@ -129,14 +116,14 @@
         "api_success": true,
         "answer_score": 100,
         "answer_correct": true,
-        "answer_reason": "Agent correctly provided the email and status for customer C027. The missing name is extra information; the required fields (email and status) match the expected answer.",
+        "answer_reason": "The agent correctly provided the email address and status for customer C027 (email: pranav.mishra27@example.com, status: Inactive). The response contains the essential requested information and matches the expected facts.",
         "agent_selection_score": 100.0,
         "tool_selection_score": 100.0,
         "agent_selection_correct": true,
         "tool_selection_correct": true,
         "trajectory_score": 100.0,
         "trajectory_correct": true,
-        "latency_seconds": 10.526,
+        "latency_seconds": 6.155,
         "latency_threshold_seconds": 30.0,
         "latency_passed": true,
         "safety_passed": true,
@@ -184,7 +171,7 @@
                 "trajectory_reason": "Expected trajectory matches actual trace."
             },
             "latency": {
-                "latency_seconds": 10.526,
+                "latency_seconds": 6.155,
                 "threshold_seconds": 30.0,
                 "passed": true,
                 "reason": "Latency is within the threshold."
@@ -226,7 +213,11 @@
                     }
                 ],
                 "model_name": "gpt-5-nano",
-                "latency_seconds": 10.526
+                "latency_seconds": 6.155,
+                "input_tokens": 3464,
+                "output_tokens": 248,
+                "total_tokens": 3712,
+                "cost_usd": 0.000272
             }
         }
     }

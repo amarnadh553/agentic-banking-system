@@ -9,7 +9,7 @@ def get_customer_details_based_on_id(customer_id:str) -> list[dict]:
     """
     Get Customer Details for a given customer ID
     """
-    customer_df = customers_df[customers_df['customer_id'].astype(str) == str(customer_id)]
+    customer_df = customers_df[customers_df['customer_id'].astype(str).str.strip().str.upper() == str(customer_id).strip().upper()]
     if customer_df.empty:
         return {"message": f"No customer found with ID {customer_id}"}
     return {"customer_details": customer_df.to_dict("records")}
