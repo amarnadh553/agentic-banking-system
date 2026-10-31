@@ -4,10 +4,12 @@ import re
 from pathlib import Path
 import requests
 from fictional_bank.config import Config
-from fictional_bank.models import LLMModelInitializer
-from fictional_bank.models.llm_model import initialize_llm
+from fictional_bank.models.llm_model import create_llm
+from fictional_bank.src import Logger
 
-llm = initialize_llm()
+
+
+# llm = initialize_llm()
 
 ## Answer Correctness
 def evaluate_answer_correctness(**kwargs):
@@ -272,18 +274,9 @@ def evaluate_safety_reliability(actual_response):
 
 class Evaluation:
     def __init__(self, golden_dataset_path, api_url, latency_threshold, report_json_path, report_csv_path):
-        from fictional_bank.src import Logger
         self.logger = Logger().get_logger(__name__)
         self.config = Config()
-        self.llm_model_initializer = LLMModelInitializer(
-            llm_model_name=self.config.LLM_MODEL_NAME,
-            open_ai_api_key=self.config.OPENAI_API_KEY,
-            temperature=self.config.TEMPERATURE,
-            frequency_penalty=self.config.FREQUENCY_PENALTY,
-            logger=self.logger,
-        )
-        self.llm = self.llm_model_initializer.initialise_llm_model()
-
+        self.llm = create_llm(self.config, self.logger)
         self.golden_dataset_path = Path(golden_dataset_path)
         self.api_url = api_url
         self.latency_threshold = latency_threshold

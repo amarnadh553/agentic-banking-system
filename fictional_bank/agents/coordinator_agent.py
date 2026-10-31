@@ -1,28 +1,3 @@
-# from fictional_bank.agents import AccountsAgent, TransactionsAgent, ServiceAgent, RoutingGraph
-# from fictional_bank.models.llm_model import initialize_llm
-# from fictional_bank.config.config import config
-# from fictional_bank.tools import ACCOUNTS_TOOLS, TRANSACTIONS_TOOLS, SERVICE_TOOLS
-
-
-
-# llm = initialize_llm()
-# accounts_agent = AccountsAgent(llm=llm, tools=ACCOUNTS_TOOLS, max_iterations=config.MAX_ITERATIONS)
-# transactions_agent = TransactionsAgent(llm=llm, tools=TRANSACTIONS_TOOLS, max_iterations=config.MAX_ITERATIONS)
-# service_agent = ServiceAgent(llm=llm, tools=SERVICE_TOOLS, max_iterations=config.MAX_ITERATIONS)
-
-
-
-# # que = "Show me the email and name for customer C001 and tell his active status also if possible "
-# # response = accounts_agent.run(que)
-# # print("\n========== FINAL RESULT ==========")
-# # print(response)
-
-# # class AgentState()
-
-
-# class CoOrdinatorAgent:
-#     pass
-
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -40,11 +15,8 @@ class RouteTask(BaseModel):
 
 
 class RouteDecision(BaseModel):
-    tasks: list[RouteTask] = Field(
-        description="One task per specialist needed (1 to 3). Use a single 'clarification' task "
-        "only when nothing else applies."
-    )
-    reasoning: str = Field(description="Brief reason for the chosen route(s)")
+    tasks: list[RouteTask] = Field(description="One task per specialist needed (1 to 3). Use a single 'clarification' task only when nothing else applies.")
+    reasoning: str = Field(description="One short sentence (at most 15 words) explaining the route")
 
 
 class CoordinatorAgent:
@@ -54,7 +26,8 @@ class CoordinatorAgent:
         You split the user's message into tasks and give each task to the right specialist.
 
         ## Specialists
-        - accounts: customer profile (name, email, status), a customer's list of accounts, balance of one account, total balance across accounts.
+        - accounts: customer details/profile (name, email, status only), a customer's list of accounts, balance of one account, total balance across accounts.
+          "Customer details" does NOT include the list of accounts unless the user asks for accounts.
         - transactions: transaction history, recent transactions, transactions in a date range, only debits or credits, total spent or received.
         - service: service requests such as address change or card replacement, request status, pending requests, how many requests a customer has.
         - clarification: greetings, thanks, general chat, or anything outside the three areas (loans, transfers, card blocking, weather, ...), or a message too vague to act on.
@@ -69,8 +42,11 @@ class CoordinatorAgent:
         - A vague message that is clearly about a customer ("tell me about C001") -> accounts.
         - Use "clarification" alone. Never combine it with other specialists.
         - Never invent route names.
-        - Decide from meaning, not exact wording. Users write casually, with typos, in any language.
+        - Keep each task question as close to the user's own words as possible. Ask only for what the user asked for.
+          Never add extra details, extra fields or "also list ..." requests, and never add a task "just in case".
+        - If only ONE specialist is needed, copy the user's question as the task question (translate to English if needed; keep the customer ID, dates and limits).
         - Always write each task question in English, even if the user wrote in another language.
+        - Keep "reasoning" to one short sentence.
 
         ## Examples
         - "How much is in C003's salary account" ->
@@ -88,6 +64,9 @@ class CoordinatorAgent:
           accounts: "Who is customer C002?"
           service: "What service requests has customer C002 raised?"
           
+        - "Can you show the customer details for C001?" ->
+          accounts: "Can you show the customer details for C001?"
+
         - "Status of R0003 for C001" -> service: "What is the status of request R0003 for C001?"
         - "Hi, what can you do" -> clarification
         - "Transfer 500 to C002" -> clarification

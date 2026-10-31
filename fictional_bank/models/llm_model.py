@@ -1,4 +1,3 @@
-
 import os
 import logging
 from typing import Optional
@@ -13,11 +12,6 @@ from functools import lru_cache
 
 logger = Logger().get_logger()
 
-# # load_dotenv()
-# # PROJECT_ROOT = os.getcwd()+os.sep+'fictional_bank'+os.sep+'.env'
-# PROJECT_ROOT = Path(__file__).resolve().parents[2]
-# PROJECT_ROOT / "fictional_bank"/'.env'
-# load_dotenv(PROJECT_ROOT, override=True)
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 ENV_FILE = PROJECT_ROOT / "fictional_bank" / ".env"
 
@@ -26,6 +20,8 @@ load_dotenv(dotenv_path=ENV_FILE, override=True)
 print(f"ENV file exists: {ENV_FILE.exists()}")
 print(f"LLM model: {os.getenv('LLM_MODEL_NAME')}")
 
+# How much a gpt-5 model "thinks" before it answers. Lower = faster and cheaper.
+VALID_REASONING_EFFORTS = {"minimal", "low", "medium", "high"}
 
 
 def initialize_llm():
@@ -41,6 +37,7 @@ class LLMModelInitializer:
         top_p: Optional[float] = 0.0,
         frequency_penalty: float = 0.0,
         logger: Optional[logging.Logger] = None,
+        reasoning_effort: Optional[str] = None,
     ):
         self.logger = logger or logging.getLogger(__name__)
 
@@ -54,7 +51,23 @@ class LLMModelInitializer:
         self.top_p = 1.0 if top_p is None else top_p
         self.frequency_penalty = frequency_penalty
 
+        self.reasoning_effort = reasoning_effort
+
         self.llm_model: Optional[ChatOpenAI] = None
+
+    @classmethod
+    def from_config(cls, config, logger: Optional[logging.Logger] = None, **overrides) -> "LLMModelInitializer":
+        """Build the initializer from the app Config. Pass keyword arguments to override one setting."""
+        settings = {
+            "llm_model_name": config.LLM_MODEL_NAME,
+            "open_ai_api_key": config.OPENAI_API_KEY,
+            "temperature": config.TEMPERATURE,
+            "frequency_penalty": config.FREQUENCY_PENALTY,
+            "reasoning_effort": config.REASONING_EFFORT,
+            "logger": logger,
+        }
+        settings.update(overrides)
+        return cls(**settings)
 
     @property
     def open_ai_api_key(self) -> str:
@@ -103,20 +116,20 @@ class LLMModelInitializer:
                 "frequency_penalty": self.frequency_penalty,
                 "max_retries": 2,
             }
+            if self.reasoning_effort:
+                model_kwargs["reasoning_effort"] = self.reasoning_effort
 
             self.llm_model = ChatOpenAI(**model_kwargs)
-            self.logger.info("Successfully initialized LLM model: %s", self.llm_model_name)
+            self.logger.info(
+                "Successfully initialized LLM model: %s (reasoning_effort=%s)",
+                self.llm_model_name, self.reasoning_effort or "model default",
+            )
             return self.llm_model
         except Exception:
             self.logger.exception("Failed to initialize LLM model.")
             raise
 
 
-# llm_initializer = LLMModelInitializer(
-#         llm_model_name=os.getenv("MODEL_NAME", "gpt-4.1-mini"),
-#         open_ai_api_key=os.getenv("OPENAI_API_KEY", ""),
-#         temperature=0.0,
-#         top_p=1.0,
-#     )
-
-# llm = llm_initializer.initialise_llm_model()
+def create_llm(config, logger: Optional[logging.Logger] = None, **overrides) -> ChatOpenAI:
+    """The one place that builds the chat model. Use it in the app, in the evaluation and anywhere else."""
+    return LLMModelInitializer.from_config(config, logger, **overrides).initialise_llm_model()

@@ -1,15 +1,10 @@
 # Standard library
-import asyncio
-import logging
-from typing import Optional
-from typing import Sequence
 
 # Local imports
 from fictional_bank.src import Logger
 from fictional_bank.config import Config
 from fictional_bank.graph import BuildGraph
-from fictional_bank.mcp_client import MCPToolClient
-from fictional_bank.models import LLMModelInitializer
+from fictional_bank.models.llm_model import create_llm
 from fictional_bank.tools import ACCOUNTS_TOOLS, TRANSACTIONS_TOOLS, SERVICE_TOOLS
 from fictional_bank.agents import AccountsAgent, TransactionsAgent, ServiceAgent, CoordinatorAgent, SynthesizerAgent
 
@@ -19,22 +14,12 @@ class FictionalBankApplication:
     def __init__(self, config: Config, logger, accounts_tools, transactions_tools, service_tools):
         self.config = config
         self.logger = logger or Logger().get_logger()
-        self.llm_model_initializer = LLMModelInitializer(
-            llm_model_name=self.config.LLM_MODEL_NAME,
-            open_ai_api_key=self.config.OPENAI_API_KEY,
-            temperature=self.config.TEMPERATURE,
-            # top_p=self.config.TOP_P,
-            frequency_penalty=self.config.FREQUENCY_PENALTY,
-            logger=self.logger,
-        )
-        self.llm = self.llm_model_initializer.initialise_llm_model()
-        # Use MCP tools for the AccountsAgent.
+        self.llm = create_llm(self.config, self.logger)
+
         account_tool_list = (list(accounts_tools) if accounts_tools is not None else ACCOUNTS_TOOLS)
         transaction_tool_list = (list(transactions_tools) if transactions_tools is not None else TRANSACTIONS_TOOLS)
         service_tool_list = (list(service_tools) if service_tools is not None else SERVICE_TOOLS)
 
-
-        
         ## Agents with with llm and tools
         self.coordinator_agent = CoordinatorAgent(llm=self.llm)
         self.synthesizer_agent = SynthesizerAgent(llm=self.llm)
