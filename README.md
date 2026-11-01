@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# agentic-banking-system
-=======
 # Fictional Bank Bot
 
 A multi-agent banking assistant built with **LangGraph**, **MCP**, **FastAPI** and **Streamlit**, with input and output guardrails and an automated **five-check evaluation suite**.
@@ -353,4 +350,3 @@ The MCP servers can be added to Claude Desktop's config. Use absolute paths and 
 ## Tech stack
 
 Python, LangGraph, LangChain, OpenAI models, MCP, FastAPI, Streamlit, Pydantic, pandas, LangSmith (optional).
->>>>>>> amarnadh_01112026

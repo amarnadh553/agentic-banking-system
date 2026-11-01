@@ -10,10 +10,6 @@ from fictional_bank.routers import banking_router, evaluation_router
 from fictional_bank.config.config import Config
 
 
-
-
-
-
 logger = Logger().get_logger(__name__)
 
 @asynccontextmanager

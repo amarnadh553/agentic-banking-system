@@ -60,13 +60,6 @@ class Config:
     API_TIMEOUT_IN_SECONDS : int = field(default_factory = lambda : int(get_env_var("API_TIMEOUT_IN_SECONDS", default_value="60", required=True)))
     EVALUATION_API_TOKEN : str = field(default_factory = lambda : get_env_var("EVALUATION_API_TOKEN", required=True))
 
-    # EVALUATION_REPORT_DIR: str = field(default_factory=lambda: get_env_var("EVALUATION_REPORT_DIR", required=True))
-    # EVALUATION_GOLDEN_DATASET_PATH: str = field(default_factory=lambda: get_env_var("EVALUATION_GOLDEN_DATASET_PATH", required=True))
-    # EVALUATION_REPORT_JSON_PATH: str = field(default_factory=lambda: get_env_var("EVALUATION_REPORT_JSON_PATH", required=True))
-    # EVALUATION_REPORT_CSV_PATH: str = field(default_factory=lambda: get_env_var("EVALUATION_REPORT_CSV_PATH", required=True))
-    # EVALUATION_OVERVIEW_JSON_PATH: str = field(default_factory=lambda: get_env_var("EVALUATION_OVERVIEW_JSON_PATH", required=True))
-    # EVALUATION_OVERVIEW_CSV_PATH: str = field(default_factory=lambda: get_env_var("EVALUATION_OVERVIEW_CSV_PATH", required=True))
-
     EVALUATION_REPORT_DIR: str = str(REPORT_DIR)
     EVALUATION_GOLDEN_DATASET_PATH: str = field(default_factory=lambda: str(GOLDEN_DIR / get_env_var("EVALUATION_GOLDEN_DATASET_PATH", required=True)))
     EVALUATION_REPORT_JSON_PATH: str = field(default_factory=lambda: str(REPORT_DIR / get_env_var("EVALUATION_REPORT_JSON_PATH", required=True)))
