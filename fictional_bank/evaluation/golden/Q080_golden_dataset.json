@@ -1,0 +1,1689 @@
+[
+    {
+        "qa_id": "Q001",
+        "question": "Can you show the customer details for C001?",
+        "expected_agents": [
+            "accounts"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id"
+        ],
+        "expected_answer": "C001 is Aarav Rao (email: aarav.rao1@example.com, status: Active).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q002",
+        "question": "What is the email address and status of customer C027?",
+        "expected_agents": [
+            "accounts"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id"
+        ],
+        "expected_answer": "C027 is Pranav Mishra (email: pranav.mishra27@example.com, status: Inactive). The customer is Inactive.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q003",
+        "question": "List all bank accounts for customer C002.",
+        "expected_agents": [
+            "accounts"
+        ],
+        "expeced_tools": [
+            "get_customer_accounts_based_on_customer_id"
+        ],
+        "expected_answer": "C002 (Vivaan Kapoor) has 2 accounts: A0003 Savings INR 136,887.36 [Active]; A0004 Savings INR 183,709.13 [Blocked]. Account A0004 is Blocked.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_accounts_based_on_customer_id"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q004",
+        "question": "What is the balance of account A0002 for customer C001?",
+        "expected_agents": [
+            "accounts"
+        ],
+        "expeced_tools": [
+            "get_account_balance"
+        ],
+        "expected_answer": "Account A0002 (Current, Active) of C001 has a balance of INR 242,631.13.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_account_balance"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q005",
+        "question": "What is the total balance across all accounts for C003?",
+        "expected_agents": [
+            "accounts"
+        ],
+        "expeced_tools": [
+            "get_total_balance"
+        ],
+        "expected_answer": "C003's total balance is INR 215,983.19, across 2 accounts: A0005 Current INR 213,692.68 [Active]; A0006 Salary INR 2,290.51 [Active].",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_total_balance"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q006",
+        "question": "How much money does customer C004 have in total?",
+        "expected_agents": [
+            "accounts"
+        ],
+        "expeced_tools": [
+            "get_total_balance"
+        ],
+        "expected_answer": "C004's total balance is INR 213,502.74, across accounts: A0007 Current INR 102,056.96 [Active]; A0008 Current INR 111,445.78 [Active].",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_total_balance"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q007",
+        "question": "Show me the accounts for C042 and tell me if any of them are not active.",
+        "expected_agents": [
+            "accounts"
+        ],
+        "expeced_tools": [
+            "get_customer_accounts_based_on_customer_id"
+        ],
+        "expected_answer": "C042 has: A0061 Salary INR 211,303.95 [Dormant]. The Salary account is Dormant (not active).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_accounts_based_on_customer_id"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q008",
+        "question": "Is account A0021 blocked? It belongs to customer C013.",
+        "expected_agents": ["accounts"],
+        "expeced_tools": ["get_customer_accounts_based_on_customer_id"],
+        "expected_answer": "Yes. A0021 (Savings) of C013 has status Blocked, with balance INR 24,341.42.",
+        "expected_trajectory": [
+            {"agent": "accounts", "tool": "get_customer_accounts_based_on_customer_id"}
+        ]
+    },
+    {
+        "qa_id": "Q009",
+        "question": "Show details for customer C999.",
+        "expected_agents": [
+            "accounts"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id"
+        ],
+        "expected_answer": "No customer found with ID C999. The agent should say the customer does not exist and not invent details.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q010",
+        "question": "What is the balance of account A0003 for customer C001?",
+        "expected_agents": [
+            "accounts"
+        ],
+        "expeced_tools": [
+            "get_account_balance"
+        ],
+        "expected_answer": "Account A0003 was not found for customer ID C001 (A0003 belongs to a different customer). The agent should not reveal another customer's balance.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_account_balance"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q011",
+        "question": "Show the last 5 transactions for customer C001.",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "get_recent_transactions"
+        ],
+        "expected_answer": "The 5 newest transactions for C001 are: T00007 (14-10-2026, Credit, INR 6,257.06, Cash Deposit, Successful); T00021 (10-10-2026, Credit, INR 50,827.48, Cash Deposit, Successful); T00018 (30-09-2026, Debit, INR 11,891.77, UPI Payment, Successful); T00001 (22-09-2026, Debit, INR 18,470.95, Utility Bill, Successful); T00019 (17-09-2026, Debit, INR 15,510.86, Utility Bill, Successful).",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q012",
+        "question": "Show the last 3 transactions for C005.",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "get_recent_transactions"
+        ],
+        "expected_answer": "The 3 newest transactions for C005 are: T00111 (05-10-2026, Debit, INR 16,267.64, Fuel Payment, Successful); T00108 (28-09-2026, Credit, INR 48,955.90, Salary Credit, Successful); T00105 (27-09-2026, Credit, INR 80,330.29, Interest Credit, Successful).",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q013",
+        "question": "List C001's transactions between 01-08-2026 and 31-08-2026.",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "search_transactions_by_date"
+        ],
+        "expected_answer": "C001 has 8 transactions in the period (inclusive). Newest first: T00011 (27-08-2026, Credit, INR 89,236.15, UPI Received, Successful); T00012 (24-08-2026, Debit, INR 8,678.94, Grocery Store, Successful); T00010 (19-08-2026, Debit, INR 2,172.78, UPI Payment, Successful); T00004 (16-08-2026, Credit, INR 69,069.25, Transfer Received, Successful); T00022 (13-08-2026, Credit, INR 87,866.31, Salary Credit, Successful); T00003 (12-08-2026, Credit, INR 67,180.56, Transfer Received, Successful); T00023 (04-08-2026, Credit, INR 28,594.97, Refund, Successful); T00024 (04-08-2026, Debit, INR 22,214.93, Utility Bill, Successful).",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "search_transactions_by_date"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q014",
+        "question": "Show me the debit transactions for C005.",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "filter_transactions_by_type"
+        ],
+        "expected_answer": "C005 has 6 debit transactions (all returned, newest first). The newest 3 are: T00111 (05-10-2026, Debit, INR 16,267.64, Fuel Payment, Successful); T00109 (24-09-2026, Debit, INR 5,432.11, Grocery Store, Successful); T00112 (03-09-2026, Debit, INR 21,212.83, Fuel Payment, Successful).",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "filter_transactions_by_type"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q015",
+        "question": "Show me all credit transactions for customer C006.",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "filter_transactions_by_type"
+        ],
+        "expected_answer": "C006 has 6 credit transactions (newest first). The newest 3 are: T00118 (22-09-2026, Credit, INR 30,281.62, Cash Deposit, Successful); T00119 (18-09-2026, Credit, INR 40,493.10, Refund, Successful); T00123 (16-09-2026, Credit, INR 87,726.91, UPI Received, Successful).",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "filter_transactions_by_type"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q016",
+        "question": "What is the total amount debited from C001's accounts?",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "calculate_total_debits"
+        ],
+        "expected_answer": "Total debits for C001 (all time) are INR 195,359.13 across 16 debit transactions.",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_debits"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q017",
+        "question": "How much was credited to C001 in October 2026?",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "calculate_total_credits"
+        ],
+        "expected_answer": "Total credits for C001 between 01-10-2026 and 31-10-2026 are INR 57,084.54 across 2 credit transactions.",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_credits"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q018",
+        "question": "Calculate total debits for C002 from 01-07-2026 to 30-09-2026.",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "calculate_total_debits"
+        ],
+        "expected_answer": "Total debits for C002 in that period are INR 65,787.31 across 6 debit transactions.",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_debits"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q019",
+        "question": "What is the total of all credits received by C007?",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "calculate_total_credits"
+        ],
+        "expected_answer": "Total credits for C007 (all time) are INR 542,874.53 across 10 credit transactions.",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_credits"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q020",
+        "question": "Did C005 have any transactions between 01-01-2025 and 31-01-2025?",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "search_transactions_by_date"
+        ],
+        "expected_answer": "No. No transactions were found within the specified date range for C005 (the data starts in April 2026).",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "search_transactions_by_date"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q021",
+        "question": "Show C001's transactions from 31-08-2026 to 01-08-2026.",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "search_transactions_by_date"
+        ],
+        "expected_answer": "Error: start date must not be after end date. The agent should explain the dates are reversed and ask for or suggest a corrected range.",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "search_transactions_by_date"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q022",
+        "question": "Show me all loan transactions for C001.",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "filter_transactions_by_type"
+        ],
+        "expected_answer": "Error: transaction type must be debit or credit. The agent should explain only debit/credit filtering is supported and offer one of those.",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "filter_transactions_by_type"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q023",
+        "question": "Show the last 150 transactions for C003.",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "get_recent_transactions"
+        ],
+        "expected_answer": "Error: limit must be between 1 and 100. The agent should explain the cap and offer up to 100 (or a date-range search).",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q025",
+        "question": "Show all service requests for customer C001.",
+        "expected_agents": [
+            "service"
+        ],
+        "expeced_tools": [
+            "get_service_requests"
+        ],
+        "expected_answer": "C001 has 2 service requests (newest first): R0001 (Address Change, 22-08-2026, Completed, remarks: Additional information may be required); R0002 (Debit Card Replacement, 24-06-2026, Completed, remarks: Additional information may be required).",
+        "expected_trajectory": [
+            {
+                "agent": "service",
+                "tool": "get_service_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q026",
+        "question": "What is the status of request R0004 for customer C004?",
+        "expected_agents": [
+            "service"
+        ],
+        "expeced_tools": [
+            "get_request_status"
+        ],
+        "expected_answer": "Request R0004 (KYC Update, 29-09-2026, Processing, remarks: Verification in progress) is currently Processing.",
+        "expected_trajectory": [
+            {
+                "agent": "service",
+                "tool": "get_request_status"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q027",
+        "question": "Does C007 have any pending service requests?",
+        "expected_agents": [
+            "service"
+        ],
+        "expeced_tools": [
+            "get_pending_requests"
+        ],
+        "expected_answer": "Yes. Pending (Submitted/Processing) requests for C007: R0008 (Account Statement, 05-10-2026, Submitted, remarks: Demo record); R0009 (Mobile Number Update, 08-07-2026, Processing, remarks: Request received).",
+        "expected_trajectory": [
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q028",
+        "question": "Are there any pending service requests for C001?",
+        "expected_agents": [
+            "service"
+        ],
+        "expeced_tools": [
+            "get_pending_requests"
+        ],
+        "expected_answer": "No. Both of C001's requests (R0001, R0002) are Completed, so there are no pending requests.",
+        "expected_trajectory": [
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q029",
+        "question": "How many service requests does C007 have, broken down by status and type?",
+        "expected_agents": [
+            "service"
+        ],
+        "expeced_tools": [
+            "count_service_requests"
+        ],
+        "expected_answer": "C007 has 2 total; by status: Submitted=1, Processing=1; by type: Account Statement=1, Mobile Number Update=1.",
+        "expected_trajectory": [
+            {
+                "agent": "service",
+                "tool": "count_service_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q030",
+        "question": "What happened to request R0051 for C036?",
+        "expected_agents": [
+            "service"
+        ],
+        "expeced_tools": [
+            "get_request_status"
+        ],
+        "expected_answer": "Request R0051 (Account Statement, 15-09-2026, Rejected, remarks: Demo record) was Rejected.",
+        "expected_trajectory": [
+            {
+                "agent": "service",
+                "tool": "get_request_status"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q031",
+        "question": "Check the status of my cheque book request R0007. My ID is C006.",
+        "expected_agents": [
+            "service"
+        ],
+        "expeced_tools": [
+            "get_request_status"
+        ],
+        "expected_answer": "Request R0007 (Cheque Book, 12-08-2026, Submitted, remarks: Demo record) is Submitted, i.e. still pending.",
+        "expected_trajectory": [
+            {
+                "agent": "service",
+                "tool": "get_request_status"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q032",
+        "question": "What is the status of request R0999 for C001?",
+        "expected_agents": [
+            "service"
+        ],
+        "expeced_tools": [
+            "get_request_status"
+        ],
+        "expected_answer": "Request R0999 was not found for customer ID C001. The agent should not guess a status.",
+        "expected_trajectory": [
+            {
+                "agent": "service",
+                "tool": "get_request_status"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q033",
+        "question": "What is the status of request R0004 for customer C001?",
+        "expected_agents": [
+            "service"
+        ],
+        "expeced_tools": [
+            "get_request_status"
+        ],
+        "expected_answer": "Request R0004 was not found for customer ID C001 (it belongs to C004). The agent should not reveal another customer's request.",
+        "expected_trajectory": [
+            {
+                "agent": "service",
+                "tool": "get_request_status"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q034",
+        "question": "Show all service requests for C003.",
+        "expected_agents": [
+            "service"
+        ],
+        "expeced_tools": [
+            "get_service_requests"
+        ],
+        "expected_answer": "No service requests found for customer ID C003.",
+        "expected_trajectory": [
+            {
+                "agent": "service",
+                "tool": "get_service_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q035",
+        "question": "List the pending requests for C010.",
+        "expected_agents": [
+            "service"
+        ],
+        "expeced_tools": [
+            "get_pending_requests"
+        ],
+        "expected_answer": "C010 has 2 pending requests (newest first): R0012 (Account Statement, 16-09-2026, Processing, remarks: Completed successfully); R0011 (Cheque Book, 21-07-2026, Processing, remarks: Verification in progress).",
+        "expected_trajectory": [
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q036",
+        "question": "How many requests has C036 raised and what are their statuses?",
+        "expected_agents": [
+            "service"
+        ],
+        "expeced_tools": [
+            "count_service_requests"
+        ],
+        "expected_answer": "C036 has 3 total; by status: Rejected=1, Completed=1, Submitted=1; by type: Account Statement=1, Address Change=1, Mobile Number Update=1.",
+        "expected_trajectory": [
+            {
+                "agent": "service",
+                "tool": "count_service_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q037",
+        "question": "Show C003's name, last 3 transactions and pending requests.",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_recent_transactions",
+            "get_pending_requests"
+        ],
+        "expected_answer": "Name: Aditya Mehta. Last 3 transactions: T00073 (11-10-2026, Debit, INR 20,182.16, ATM Withdrawal, Failed); T00057 (04-10-2026, Credit, INR 44,539.89, Refund, Successful); T00076 (02-10-2026, Credit, INR 25,539.92, Refund, Successful). Pending requests: none, because C003 has no service requests on record.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            },
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q038",
+        "question": "Show C007's name, last 3 transactions and pending requests.",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_recent_transactions",
+            "get_pending_requests"
+        ],
+        "expected_answer": "Name: Ananya Kumar. Last 3 transactions: T00139 (15-10-2026, Credit, INR 89,421.27, Salary Credit, Successful); T00140 (09-10-2026, Debit, INR 2,576.67, Utility Bill, Pending); T00125 (26-09-2026, Debit, INR 20,539.78, Grocery Store, Successful). Pending requests: R0008 (Account Statement, 05-10-2026, Submitted, remarks: Demo record); R0009 (Mobile Number Update, 08-07-2026, Processing, remarks: Request received).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            },
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q039",
+        "question": "For C001, give me the customer name, total balance and last 5 transactions.",
+        "expected_agents": [
+            "accounts",
+            "transactions"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_total_balance",
+            "get_recent_transactions"
+        ],
+        "expected_answer": "Name: Aarav Rao. Total balance: INR 439,130.17. Last 5 transactions: T00007 (14-10-2026, Credit, INR 6,257.06, Cash Deposit, Successful); T00021 (10-10-2026, Credit, INR 50,827.48, Cash Deposit, Successful); T00018 (30-09-2026, Debit, INR 11,891.77, UPI Payment, Successful); T00001 (22-09-2026, Debit, INR 18,470.95, Utility Bill, Successful); T00019 (17-09-2026, Debit, INR 15,510.86, Utility Bill, Successful).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "accounts",
+                "tool": "get_total_balance"
+            },
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q040",
+        "question": "What is C004's total balance and does C004 have any pending requests?",
+        "expected_agents": ["accounts", "service"],
+        "expeced_tools": ["get_total_balance", "get_pending_requests"],
+        "expected_answer": "Total balance: INR 213,502.74. Pending requests: R0004 (KYC Update, 29-09-2026, Processing, remarks: Verification in progress).",
+        "expected_trajectory": [
+            {"agent": "accounts", "tool": "get_total_balance"},
+            {"agent": "service", "tool": "get_pending_requests"}
+        ]
+    },
+    {
+        "qa_id": "Q041",
+        "question": "Give me C010's name, email and pending service requests.",
+        "expected_agents": [
+            "accounts",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_pending_requests"
+        ],
+        "expected_answer": "Name: Saanvi Das; email: saanvi.das10@example.com. Pending requests: R0012 (Account Statement, 16-09-2026, Processing, remarks: Completed successfully); R0011 (Cheque Book, 21-07-2026, Processing, remarks: Verification in progress).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q042",
+        "question": "List C002's accounts and tell me the total debited from them.",
+        "expected_agents": [
+            "accounts",
+            "transactions"
+        ],
+        "expeced_tools": [
+            "get_customer_accounts_based_on_customer_id",
+            "calculate_total_debits"
+        ],
+        "expected_answer": "Accounts: A0003 Savings INR 136,887.36 [Active]; A0004 Savings INR 183,709.13 [Blocked]. Total debits (all time): INR 136,878.34 across 12 transactions.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_accounts_based_on_customer_id"
+            },
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_debits"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q043",
+        "question": "Show C005's details, the last 3 transactions and how many service requests they have.",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_recent_transactions",
+            "count_service_requests"
+        ],
+        "expected_answer": "Customer: Arjun Kapoor (email: arjun.kapoor5@example.com, status: Active). Last 3 transactions: T00111 (05-10-2026, Debit, INR 16,267.64, Fuel Payment, Successful); T00108 (28-09-2026, Credit, INR 48,955.90, Salary Credit, Successful); T00105 (27-09-2026, Credit, INR 80,330.29, Interest Credit, Successful). Service requests: 2 total; by status: Processing=1, Completed=1; by type: Debit Card Replacement=1, Account Statement=1.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            },
+            {
+                "agent": "service",
+                "tool": "count_service_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q044",
+        "question": "Show customer details for C036 and the status of request R0051.",
+        "expected_agents": [
+            "accounts",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_request_status"
+        ],
+        "expected_answer": "Customer: Sai Kapoor (email: sai.kapoor36@example.com, status: Active). Request R0051 (Account Statement, 15-09-2026, Rejected, remarks: Demo record) is Rejected.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "service",
+                "tool": "get_request_status"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q045",
+        "question": "What is C001's name, total credits in August 2026 and all their service requests?",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "calculate_total_credits",
+            "get_service_requests"
+        ],
+        "expected_answer": "Name: Aarav Rao. Total credits 01-08-2026 to 31-08-2026: INR 341,947.24 across 5 transactions. Service requests: R0001 (Address Change, 22-08-2026, Completed, remarks: Additional information may be required); R0002 (Debit Card Replacement, 24-06-2026, Completed, remarks: Additional information may be required).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_credits"
+            },
+            {
+                "agent": "service",
+                "tool": "get_service_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q046",
+        "question": "Check the balance of C013's blocked account A0021 and show their last 2 transactions.",
+        "expected_agents": [
+            "accounts",
+            "transactions"
+        ],
+        "expeced_tools": [
+            "get_account_balance",
+            "get_recent_transactions"
+        ],
+        "expected_answer": "A0021 (Blocked) balance: INR 24,341.42. Last 2 transactions for C013: T00281 (13-10-2026, Debit, INR 739.49, Grocery Store, Successful); T00318 (03-10-2026, Credit, INR 41,222.26, Cash Deposit, Successful).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_account_balance"
+            },
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q047",
+        "question": "For C007 show the total balance, total debits and pending requests.",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_total_balance",
+            "calculate_total_debits",
+            "get_pending_requests"
+        ],
+        "expected_answer": "Total balance: INR 318,348.45. Total debits (all time): INR 264,451.17 across 20 transactions. Pending requests: R0008 (Account Statement, 05-10-2026, Submitted, remarks: Demo record); R0009 (Mobile Number Update, 08-07-2026, Processing, remarks: Request received).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_total_balance"
+            },
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_debits"
+            },
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q048",
+        "question": "Customer C027 is inactive. Show their details and any service requests.",
+        "expected_agents": [
+            "accounts",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_service_requests"
+        ],
+        "expected_answer": "Customer: Pranav Mishra (email: pranav.mishra27@example.com, status: Inactive). Service requests: R0035 (KYC Update, 17-08-2026, Completed, remarks: Completed successfully).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "service",
+                "tool": "get_service_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q049",
+        "question": "Give me a full summary of C012: name, total balance, last 3 transactions and pending requests.",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_total_balance",
+            "get_recent_transactions",
+            "get_pending_requests"
+        ],
+        "expected_answer": "Name: Priya Mehta. Total balance: INR 185,744.90. Last 3 transactions: T00275 (27-09-2026, Debit, INR 2,228.92, Fuel Payment, Successful); T00267 (20-09-2026, Debit, INR 9,670.30, UPI Payment, Failed); T00269 (06-09-2026, Debit, INR 19,522.61, Fuel Payment, Successful). Pending requests: R0015 (Account Statement, 23-08-2026, Submitted, remarks: Request received); R0014 (Account Statement, 16-08-2026, Submitted, remarks: Additional information may be required).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "accounts",
+                "tool": "get_total_balance"
+            },
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            },
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q050",
+        "question": "Show the name, last 3 transactions and pending requests for customer C999.",
+        "expected_agents": ["accounts", "service", "transactions"],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_pending_requests",
+            "get_recent_transactions"
+        ],
+        "expected_answer": "No customer found with ID C999. No name, transactions or pending requests are available for this customer. The response must not invent any customer, transaction or request data.",
+        "expected_trajectory": [
+            {"agent": "accounts", "tool": "get_customer_details_based_on_id"},
+            {"agent": "transactions", "tool": "get_recent_transactions"},
+            {"agent": "service", "tool": "get_pending_requests"}
+        ]
+    },
+    {
+        "qa_id": "Q051",
+        "question": "For C002, show the customer details and the total balance across all accounts.",
+        "expected_agents": [
+            "accounts"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_total_balance"
+        ],
+        "expected_answer": "Customer: Vivaan Kapoor (email: vivaan.kapoor2@example.com, status: Active). Total balance: INR 320,596.49.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "accounts",
+                "tool": "get_total_balance"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q052",
+        "question": "Show C004's customer details and list all of their accounts.",
+        "expected_agents": [
+            "accounts"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_customer_accounts_based_on_customer_id"
+        ],
+        "expected_answer": "Customer: Vihaan Singh (email: vihaan.singh4@example.com, status: Active). Accounts: A0007 Current INR 102,056.96 [Active]; A0008 Current INR 111,445.78 [Active].",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "accounts",
+                "tool": "get_customer_accounts_based_on_customer_id"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q053",
+        "question": "List the accounts of C006 and tell me the balance of account A0010.",
+        "expected_agents": [
+            "accounts"
+        ],
+        "expeced_tools": [
+            "get_customer_accounts_based_on_customer_id",
+            "get_account_balance"
+        ],
+        "expected_answer": "Accounts: A0010 Savings INR 179,627.09 [Active]. Account A0010 (Savings, Active) of C006 has a balance of INR 179,627.09.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_accounts_based_on_customer_id"
+            },
+            {
+                "agent": "accounts",
+                "tool": "get_account_balance"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q054",
+        "question": "Give me C010's name, status and total balance.",
+        "expected_agents": [
+            "accounts"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_total_balance"
+        ],
+        "expected_answer": "Name: Saanvi Das; status: Active. Total balance: INR 163,826.72.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "accounts",
+                "tool": "get_total_balance"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q055",
+        "question": "Show C008's last 4 transactions and the total amount debited from their accounts.",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "get_recent_transactions",
+            "calculate_total_debits"
+        ],
+        "expected_answer": "Last 4 transactions: T00174 (04-10-2026, Debit, INR 4,338.63, Fuel Payment, Successful); T00165 (01-10-2026, Debit, INR 6,164.18, ATM Withdrawal, Successful); T00167 (29-09-2026, Debit, INR 17,165.39, UPI Payment, Successful); T00162 (26-09-2026, Credit, INR 12,628.37, Interest Credit, Successful). Total debits (all time): INR 139,250.02 across 17 transactions.",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            },
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_debits"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q056",
+        "question": "For C013, how much was credited and how much was debited in September 2026?",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "calculate_total_credits",
+            "calculate_total_debits"
+        ],
+        "expected_answer": "Total credits 01-09-2026 to 30-09-2026: INR 245,000.51 across 3 transactions. Total debits 01-09-2026 to 30-09-2026: INR 45,769.81 across 4 transactions.",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_credits"
+            },
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_debits"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q057",
+        "question": "Show all debit transactions for C012 and the total amount they add up to.",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "filter_transactions_by_type",
+            "calculate_total_debits"
+        ],
+        "expected_answer": "C012 has 9 debit transactions (all returned, newest first). The newest 3 are: T00275 (27-09-2026, Debit, INR 2,228.92, Fuel Payment, Successful); T00267 (20-09-2026, Debit, INR 9,670.30, UPI Payment, Failed); T00269 (06-09-2026, Debit, INR 19,522.61, Fuel Payment, Successful). Total debits (all time): INR 140,917.39 across 9 transactions.",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "filter_transactions_by_type"
+            },
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_debits"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q058",
+        "question": "List C004's transactions between 01-09-2026 and 30-09-2026 and the total credits in that period.",
+        "expected_agents": [
+            "transactions"
+        ],
+        "expeced_tools": [
+            "search_transactions_by_date",
+            "calculate_total_credits"
+        ],
+        "expected_answer": "C004 has 7 transactions in the period (inclusive). Newest first: T00080 (26-09-2026, Credit, INR 30,688.29, Salary Credit, Successful); T00101 (23-09-2026, Debit, INR 17,987.48, Grocery Store, Pending); T00097 (16-09-2026, Debit, INR 23,225.63, Grocery Store, Successful); T00088 (11-09-2026, Debit, INR 7,763.16, Grocery Store, Failed); T00096 (07-09-2026, Debit, INR 5,043.67, Utility Bill, Failed); T00089 (05-09-2026, Debit, INR 6,260.71, Grocery Store, Successful); T00100 (04-09-2026, Debit, INR 6,433.87, Fuel Payment, Successful). Total credits for 01-09-2026 to 30-09-2026: INR 30,688.29 across 1 transactions.",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "search_transactions_by_date"
+            },
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_credits"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q059",
+        "question": "Show C010's pending service requests and the total number of requests they have raised.",
+        "expected_agents": [
+            "service"
+        ],
+        "expeced_tools": [
+            "get_pending_requests",
+            "count_service_requests"
+        ],
+        "expected_answer": "Pending requests: R0012 (Account Statement, 16-09-2026, Processing, remarks: Completed successfully); R0011 (Cheque Book, 21-07-2026, Processing, remarks: Verification in progress). Request count: 2 total; by status: Processing=2; by type: Cheque Book=1, Account Statement=1.",
+        "expected_trajectory": [
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            },
+            {
+                "agent": "service",
+                "tool": "count_service_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q060",
+        "question": "List all service requests for C007 and tell me the status of request R0009.",
+        "expected_agents": [
+            "service"
+        ],
+        "expeced_tools": [
+            "get_service_requests",
+            "get_request_status"
+        ],
+        "expected_answer": "Service requests (newest first): R0008 (Account Statement, 05-10-2026, Submitted, remarks: Demo record); R0009 (Mobile Number Update, 08-07-2026, Processing, remarks: Request received). Request R0009 (Mobile Number Update, 08-07-2026, Processing, remarks: Request received) is currently Processing.",
+        "expected_trajectory": [
+            {
+                "agent": "service",
+                "tool": "get_service_requests"
+            },
+            {
+                "agent": "service",
+                "tool": "get_request_status"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q061",
+        "question": "Show C006's name, email and last 3 transactions.",
+        "expected_agents": [
+            "accounts",
+            "transactions"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_recent_transactions"
+        ],
+        "expected_answer": "Customer: Sai Iyer (email: sai.iyer6@example.com, status: Active). Last 3 transactions: T00118 (22-09-2026, Credit, INR 30,281.62, Cash Deposit, Successful); T00119 (18-09-2026, Credit, INR 40,493.10, Refund, Successful); T00115 (17-09-2026, Debit, INR 575.11, Fuel Payment, Successful).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q062",
+        "question": "What is C008's total balance and how much have they credited in total?",
+        "expected_agents": [
+            "accounts",
+            "transactions"
+        ],
+        "expeced_tools": [
+            "get_total_balance",
+            "calculate_total_credits"
+        ],
+        "expected_answer": "Total balance: INR 398,693.68. Total credits (all time): INR 443,467.37 across 9 transactions.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_total_balance"
+            },
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_credits"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q063",
+        "question": "List C003's accounts and show their debit transactions.",
+        "expected_agents": [
+            "accounts",
+            "transactions"
+        ],
+        "expeced_tools": [
+            "get_customer_accounts_based_on_customer_id",
+            "filter_transactions_by_type"
+        ],
+        "expected_answer": "Accounts: A0005 Current INR 213,692.68 [Active]; A0006 Salary INR 2,290.51 [Active]. C003 has 24 debit transactions (all returned, newest first). The newest 3 are: T00073 (11-10-2026, Debit, INR 20,182.16, ATM Withdrawal, Failed); T00046 (27-09-2026, Debit, INR 18,495.37, Utility Bill, Successful); T00049 (18-09-2026, Debit, INR 21,661.80, Grocery Store, Successful).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_accounts_based_on_customer_id"
+            },
+            {
+                "agent": "transactions",
+                "tool": "filter_transactions_by_type"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q064",
+        "question": "Check the balance of account A0009 for C005 and show C005's last 2 transactions.",
+        "expected_agents": [
+            "accounts",
+            "transactions"
+        ],
+        "expeced_tools": [
+            "get_account_balance",
+            "get_recent_transactions"
+        ],
+        "expected_answer": "Account A0009 (Savings, Active) of C005 has a balance of INR 203,345.92. Last 2 transactions for C005: T00111 (05-10-2026, Debit, INR 16,267.64, Fuel Payment, Successful); T00108 (28-09-2026, Credit, INR 48,955.90, Salary Credit, Successful).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_account_balance"
+            },
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q065",
+        "question": "For C015, show the customer name and their pending service requests.",
+        "expected_agents": [
+            "accounts",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_pending_requests"
+        ],
+        "expected_answer": "Name: Neha Bose. Pending requests: R0019 (Debit Card Replacement, 19-08-2026, Processing, remarks: Completed successfully); R0018 (Cheque Book, 04-08-2026, Submitted, remarks: Demo record).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q066",
+        "question": "What is C012's total balance and how many service requests have they raised?",
+        "expected_agents": [
+            "accounts",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_total_balance",
+            "count_service_requests"
+        ],
+        "expected_answer": "Total balance: INR 185,744.90. Service requests: 2 total; by status: Submitted=2; by type: Account Statement=2.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_total_balance"
+            },
+            {
+                "agent": "service",
+                "tool": "count_service_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q067",
+        "question": "Show C001's customer details and all of their service requests.",
+        "expected_agents": [
+            "accounts",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_service_requests"
+        ],
+        "expected_answer": "Customer: Aarav Rao (email: aarav.rao1@example.com, status: Active). Service requests (newest first): R0001 (Address Change, 22-08-2026, Completed, remarks: Additional information may be required); R0002 (Debit Card Replacement, 24-06-2026, Completed, remarks: Additional information may be required).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "service",
+                "tool": "get_service_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q068",
+        "question": "Show the last 3 transactions for C004 and any pending service requests.",
+        "expected_agents": [
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_recent_transactions",
+            "get_pending_requests"
+        ],
+        "expected_answer": "Last 3 transactions: T00085 (15-10-2026, Debit, INR 20,361.84, Utility Bill, Successful); T00099 (07-10-2026, Credit, INR 19,329.29, Refund, Successful); T00080 (26-09-2026, Credit, INR 30,688.29, Salary Credit, Successful). Pending requests: R0004 (KYC Update, 29-09-2026, Processing, remarks: Verification in progress).",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            },
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q069",
+        "question": "What is the total amount debited from C010's accounts, and what is the status of request R0011?",
+        "expected_agents": [
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "calculate_total_debits",
+            "get_request_status"
+        ],
+        "expected_answer": "Total debits (all time): INR 131,375.77 across 12 transactions. Request R0011 (Cheque Book, 21-07-2026, Processing, remarks: Verification in progress) is currently Processing.",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_debits"
+            },
+            {
+                "agent": "service",
+                "tool": "get_request_status"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q070",
+        "question": "List C002's transactions for September 2026 and tell me whether they have any pending requests.",
+        "expected_agents": [
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "search_transactions_by_date",
+            "get_pending_requests"
+        ],
+        "expected_answer": "C002 has 3 transactions in September 2026 (01-09-2026 to 30-09-2026, inclusive). Newest first: T00044 (28-09-2026, Credit, INR 91,309.29, UPI Received, Successful); T00043 (18-09-2026, Debit, INR 185.37, UPI Payment, Successful); T00037 (14-09-2026, Debit, INR 17,751.61, Online Shopping, Successful). Pending requests: none, because C002 has no pending service requests.",
+        "expected_trajectory": [
+            {
+                "agent": "transactions",
+                "tool": "search_transactions_by_date"
+            },
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q071",
+        "question": "Give me C001's name, last 3 transactions and any pending requests.",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_recent_transactions",
+            "get_pending_requests"
+        ],
+        "expected_answer": "Name: Aarav Rao. Last 3 transactions: T00007 (14-10-2026, Credit, INR 6,257.06, Cash Deposit, Successful); T00021 (10-10-2026, Credit, INR 50,827.48, Cash Deposit, Successful); T00018 (30-09-2026, Debit, INR 11,891.77, UPI Payment, Successful). Pending requests: none, because C001 has no pending service requests.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            },
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q072",
+        "question": "Show C004's name, total balance, last 3 transactions and pending requests.",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_total_balance",
+            "get_recent_transactions",
+            "get_pending_requests"
+        ],
+        "expected_answer": "Name: Vihaan Singh. Total balance: INR 213,502.74. Last 3 transactions: T00085 (15-10-2026, Debit, INR 20,361.84, Utility Bill, Successful); T00099 (07-10-2026, Credit, INR 19,329.29, Refund, Successful); T00080 (26-09-2026, Credit, INR 30,688.29, Salary Credit, Successful). Pending requests: R0004 (KYC Update, 29-09-2026, Processing, remarks: Verification in progress).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "accounts",
+                "tool": "get_total_balance"
+            },
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            },
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q073",
+        "question": "For C010, show the customer details, the last 2 transactions and the number of service requests.",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_recent_transactions",
+            "count_service_requests"
+        ],
+        "expected_answer": "Customer: Saanvi Das (email: saanvi.das10@example.com, status: Active). Last 2 transactions: T00199 (06-10-2026, Credit, INR 35,405.79, Salary Credit, Successful); T00194 (26-09-2026, Debit, INR 15,372.58, Fuel Payment, Successful). Service requests: 2 total; by status: Processing=2; by type: Cheque Book=1, Account Statement=1.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            },
+            {
+                "agent": "service",
+                "tool": "count_service_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q074",
+        "question": "What are C015's name, total debits and pending service requests?",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "calculate_total_debits",
+            "get_pending_requests"
+        ],
+        "expected_answer": "Name: Neha Bose. Total debits (all time): INR 252,281.01 across 16 transactions. Pending requests: R0019 (Debit Card Replacement, 19-08-2026, Processing, remarks: Completed successfully); R0018 (Cheque Book, 04-08-2026, Submitted, remarks: Demo record).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_debits"
+            },
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q075",
+        "question": "Show C006's accounts, total credits for September 2026 and all service requests.",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_accounts_based_on_customer_id",
+            "calculate_total_credits",
+            "get_service_requests"
+        ],
+        "expected_answer": "Accounts: A0010 Savings INR 179,627.09 [Active]. Total credits 01-09-2026 to 30-09-2026: INR 158,501.63 across 3 transactions. Service requests (newest first): R0007 (Cheque Book, 12-08-2026, Submitted, remarks: Demo record).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_accounts_based_on_customer_id"
+            },
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_credits"
+            },
+            {
+                "agent": "service",
+                "tool": "get_service_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q076",
+        "question": "Show C002's name, last 3 transactions and pending requests.",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_recent_transactions",
+            "get_pending_requests"
+        ],
+        "expected_answer": "Name: Vivaan Kapoor. Last 3 transactions: T00040 (10-10-2026, Debit, INR 4,518.92, UPI Payment, Successful); T00041 (09-10-2026, Debit, INR 17,444.94, Fuel Payment, Successful); T00045 (01-10-2026, Debit, INR 6,634.71, UPI Payment, Successful). Pending requests: none, because C002 has no pending service requests.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            },
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q077",
+        "question": "Give me C012's total balance, total credits and the number of service requests they have.",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_total_balance",
+            "calculate_total_credits",
+            "count_service_requests"
+        ],
+        "expected_answer": "Total balance: INR 185,744.90. Total credits (all time): INR 128,522.85 across 2 transactions. Service requests: 2 total; by status: Submitted=2; by type: Account Statement=2.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_total_balance"
+            },
+            {
+                "agent": "transactions",
+                "tool": "calculate_total_credits"
+            },
+            {
+                "agent": "service",
+                "tool": "count_service_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q078",
+        "question": "For C007, check the balance of account A0011, show the last 3 transactions and the status of request R0008.",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_account_balance",
+            "get_recent_transactions",
+            "get_request_status"
+        ],
+        "expected_answer": "Account A0011 (Savings, Active) of C007 has a balance of INR 97,696.85. Last 3 transactions: T00139 (15-10-2026, Credit, INR 89,421.27, Salary Credit, Successful); T00140 (09-10-2026, Debit, INR 2,576.67, Utility Bill, Pending); T00125 (26-09-2026, Debit, INR 20,539.78, Grocery Store, Successful). Request R0008 (Account Statement, 05-10-2026, Submitted, remarks: Demo record) is currently Submitted.",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_account_balance"
+            },
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            },
+            {
+                "agent": "service",
+                "tool": "get_request_status"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q079",
+        "question": "Show customer details for C008, their debit transactions and their pending requests.",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "filter_transactions_by_type",
+            "get_pending_requests"
+        ],
+        "expected_answer": "Customer: Diya Shetty (email: diya.shetty8@example.com, status: Active). C008 has 17 debit transactions (all returned, newest first). The newest 3 are: T00174 (04-10-2026, Debit, INR 4,338.63, Fuel Payment, Successful); T00165 (01-10-2026, Debit, INR 6,164.18, ATM Withdrawal, Successful); T00167 (29-09-2026, Debit, INR 17,165.39, UPI Payment, Successful). Pending requests: R0010 (Account Statement, 15-10-2026, Submitted, remarks: Demo record).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "transactions",
+                "tool": "filter_transactions_by_type"
+            },
+            {
+                "agent": "service",
+                "tool": "get_pending_requests"
+            }
+        ]
+    },
+    {
+        "qa_id": "Q080",
+        "question": "Summarise C005: customer details, total balance, last 3 transactions and all service requests.",
+        "expected_agents": [
+            "accounts",
+            "transactions",
+            "service"
+        ],
+        "expeced_tools": [
+            "get_customer_details_based_on_id",
+            "get_total_balance",
+            "get_recent_transactions",
+            "get_service_requests"
+        ],
+        "expected_answer": "Customer: Arjun Kapoor (email: arjun.kapoor5@example.com, status: Active). Total balance: INR 203,345.92. Last 3 transactions: T00111 (05-10-2026, Debit, INR 16,267.64, Fuel Payment, Successful); T00108 (28-09-2026, Credit, INR 48,955.90, Salary Credit, Successful); T00105 (27-09-2026, Credit, INR 80,330.29, Interest Credit, Successful). Service requests (newest first): R0005 (Debit Card Replacement, 24-08-2026, Processing, remarks: Completed successfully); R0006 (Account Statement, 18-07-2026, Completed, remarks: Completed successfully).",
+        "expected_trajectory": [
+            {
+                "agent": "accounts",
+                "tool": "get_customer_details_based_on_id"
+            },
+            {
+                "agent": "accounts",
+                "tool": "get_total_balance"
+            },
+            {
+                "agent": "transactions",
+                "tool": "get_recent_transactions"
+            },
+            {
+                "agent": "service",
+                "tool": "get_service_requests"
+            }
+        ]
+    }
+]
