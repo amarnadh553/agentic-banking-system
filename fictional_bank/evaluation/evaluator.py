@@ -8,9 +8,6 @@ from fictional_bank.models.llm_model import create_llm
 from fictional_bank.src import Logger
 
 
-
-# llm = initialize_llm()
-
 ## Answer Correctness
 def evaluate_answer_correctness(**kwargs):
 
@@ -66,22 +63,11 @@ def evaluate_answer_correctness(**kwargs):
     """
     try:
         response = llm.invoke(prompt)
-        # response = llm.invoke(
-        #     prompt,
-        #     config={                                   # shows up in LangSmith as its own, filterable run
-        #         "run_name": "eval_answer_judge",
-        #         "tags": ["eval", "llm-judge"],
-        #         "metadata": {"qa_id": kwargs.get("qa_id", "")},
-        #     },
-        # )
         result = json.loads(response.content)
         score = max(0, min(100, int(result['score_percentage'])))
         return {"score_percentage": score, "correct": score >= 80, "reason": result.get("reason", "")}
     except Exception as e:
         return {"score_percentage": None, "correct": None, "reason": f"Evaluation failed: {e}"}
-
-
-
 
 def evaluate_tool_selection(**kwargs):
 
@@ -126,10 +112,6 @@ def evaluate_tool_selection(**kwargs):
         "expected_tools": sorted(expected_tools_set),
         "actual_tools": sorted(actual_tools),
     }
-
-
-
-
 
 def evaluate_trajectory(**kwargs) -> dict:
     expected_trajectory = kwargs.get("expected_trajectory")
@@ -193,8 +175,6 @@ def evaluate_trajectory(**kwargs) -> dict:
     }
 
 
-
-
 def evaluate_latency(actual_response, threshold_seconds=10.0):
     """
     Evaluate API response latency against a threshold.
@@ -216,13 +196,7 @@ def evaluate_latency(actual_response, threshold_seconds=10.0):
         "latency_seconds": round(latency, 3),
         "threshold_seconds": threshold_seconds,
         "passed": passed,
-        "reason": (
-            "Latency is within the threshold."
-            if passed
-            else "Latency exceeds the threshold."
-        )
-    }
-
+        "reason": ("Latency is within the threshold." if passed else "Latency exceeds the threshold.")}
 
 
 def evaluate_safety_reliability(actual_response):
@@ -231,9 +205,7 @@ def evaluate_safety_reliability(actual_response):
 
     # Reliability checks
     reliability_checks = {
-        "response_present": bool(
-            isinstance(response_text, str) and response_text.strip()
-        ),
+        "response_present": bool(isinstance(response_text, str) and response_text.strip()),
         "trace_present": bool(trace),
         "model_name_present": bool(trace.get("model_name")),
         "latency_present": trace.get("latency_seconds") is not None,
@@ -433,12 +405,3 @@ class Evaluation:
         print(f"CSV report : {csv_path}")
         return report_rows
 
-
-# if __name__ == "__main__":
-#     GOLDEN_DATASET_PATH = r"C:\Users\Amarnadh\Documents\DATA_SCIENCE\LEARNING\AGENTIC_AI\fictional_bank_bot\fictional_bank\evaluation\golden\gold_test.json"
-#     evaluator = Evaluation(
-#         golden_dataset_path=GOLDEN_DATASET_PATH,
-#         api_url="http://127.0.0.1:8000/api/v1/banking/ask",
-#         latency_threshold=10.0,
-#     )
-#     evaluator.run()

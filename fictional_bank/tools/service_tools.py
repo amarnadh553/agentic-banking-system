@@ -8,7 +8,9 @@ MAX_LIMIT = 100
 
 # Statuses that mean a request is finished. Anything else counts as pending/open.
 # Check these against the real values in the `status` column of service_requests.csv.
-CLOSED_STATUSES = {'completed', 'processing', 'rejected', 'submitted'}
+# CLOSED_STATUSES = {'completed', 'processing', 'rejected', 'submitted'}
+# CLOSED_STATUSES = {'completed', 'rejected', 'cancelled', 'closed', 'processing', 'submitted'}
+CLOSED_STATUSES = {'completed', 'rejected', 'cancelled', 'closed'}
 
 
 # Helpers for Service tools

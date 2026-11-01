@@ -4,8 +4,8 @@ from fastapi import APIRouter, Header, HTTPException
 from fastapi.concurrency import run_in_threadpool
 
 from fictional_bank.config import Config
-from fictional_bank.evaluation.report import Evaluation
-from fictional_bank.evaluation.run_eval import create_evaluation_overview
+from fictional_bank.evaluation.evaluator import Evaluation
+from fictional_bank.evaluation.run_evaluation import create_evaluation_overview
 from fictional_bank.src import Logger
 
 logger = Logger().get_logger(__name__)
